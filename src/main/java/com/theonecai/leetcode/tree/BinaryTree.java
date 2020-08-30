@@ -1,7 +1,5 @@
 package com.theonecai.leetcode.tree;
 
-import org.mortbay.util.ArrayQueue;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -181,7 +179,7 @@ public class BinaryTree {
      * @return
      */
     public List<Integer> bfsTraversal(TreeNode root) {
-        Queue<TreeNode> queue = new ArrayQueue<>();
+        Queue<TreeNode> queue = new LinkedList<>();
         List<Integer> result = new LinkedList<>();
         queue.offer(root);
         while (!queue.isEmpty()) {

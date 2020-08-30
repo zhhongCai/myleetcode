@@ -9,28 +9,29 @@ import org.junit.Assert;
  */
 public class PalindromeSubSequence {
 
-    public String subsequence(String str) {
-        /**
-         * ababad
-         *
-         *
-         */
-        char[] chars = str.toCharArray();
-        int length = 0;
-        String maxLengthStr = String.valueOf(chars[0]);
-        for (int i = 1; i < chars.length; i++) {
-            length = subSequence(chars, i);
-            if (length > maxLengthStr.length()) {
-                maxLengthStr = String.valueOf(chars, i - (length - 1) / 2, length);
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        int len;
+        int lenEven;
+        String maxLengthStr = "";
+        for (int i = 0; i < chars.length; i++) {
+            len = subsequence(chars, i - 1, i + 1);
+            lenEven = subsequence(chars, i, i + 1);
+            if (len > maxLengthStr.length()) {
+                maxLengthStr = String.valueOf(chars, i - len  / 2, len);
+            }
+            if (lenEven > maxLengthStr.length()) {
+                maxLengthStr = String.valueOf(chars, i - lenEven  / 2 + 1, lenEven);
             }
         }
 
         return maxLengthStr;
     }
 
-    private int subSequence(char[] chars, int mid) {
-        int left = mid - 1;
-        int right = mid + 1;
+    private int subsequence(char[] chars, int left, int right) {
         while (left >= 0 && right < chars.length) {
             if (chars[left] != chars[right]) {
                 break;
@@ -38,14 +39,22 @@ public class PalindromeSubSequence {
             left--;
             right++;
         }
+
         return right - left - 1;
     }
 
     public static void main(String[] args) {
         PalindromeSubSequence  palindromeSubSequence = new PalindromeSubSequence();
-        Assert.assertEquals("ababa", palindromeSubSequence.subsequence("ababad"));
-        Assert.assertEquals("a", palindromeSubSequence.subsequence("abcd"));
-        Assert.assertEquals("aaa", palindromeSubSequence.subsequence("aaa"));
-        Assert.assertEquals("aaa", palindromeSubSequence.subsequence("aaaa"));
+        Assert.assertEquals("ababa", palindromeSubSequence.longestPalindrome("ababad"));
+        Assert.assertEquals("a", palindromeSubSequence.longestPalindrome("abcd"));
+        Assert.assertEquals("aaa", palindromeSubSequence.longestPalindrome("aaa"));
+        Assert.assertEquals("a", palindromeSubSequence.longestPalindrome("a"));
+        Assert.assertEquals("aa", palindromeSubSequence.longestPalindrome("aa"));
+        Assert.assertEquals("aaaa", palindromeSubSequence.longestPalindrome("aaaa"));
+        Assert.assertEquals("aaaaa", palindromeSubSequence.longestPalindrome("aaaaa"));
+        Assert.assertEquals("bb", palindromeSubSequence.longestPalindrome("cbbd"));
+        Assert.assertEquals("bb", palindromeSubSequence.longestPalindrome("cbb"));
+        Assert.assertEquals("bb", palindromeSubSequence.longestPalindrome("bbd"));
+        Assert.assertEquals("tattarrattat", palindromeSubSequence.longestPalindrome("tattarrattat"));
     }
 }

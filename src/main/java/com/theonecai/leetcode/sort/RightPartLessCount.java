@@ -8,6 +8,7 @@ import java.util.BitSet;
 import java.util.List;
 
 /**
+ * leetcode 315
  * @Author: theonecai
  * @Date: Create in 2020/8/27 20:41
  * @Description:
@@ -87,22 +88,14 @@ public class RightPartLessCount {
         int leftIndex = start;
         int rightIndex = mid + 1;
         int tmpIndex = start;
-        boolean preElemIsRightPart = false;
         int rightPartLessThanLeftCount = 0;
         while (leftIndex <= mid || rightIndex <= end) {
             if (rightIndex > end || (leftIndex <= mid && nodes[leftIndex].value <= nodes[rightIndex].value)) {
-                if (!preElemIsRightPart) {
-                    rightPartLessThanLeftCount = (rightIndex > end ? end : rightIndex - 1) - mid;
-                    count.set(nodes[leftIndex].index,  count.get(nodes[leftIndex].index) + rightPartLessThanLeftCount);
-                }
+                rightPartLessThanLeftCount = (rightIndex > end ? end : rightIndex - 1) - mid;
+                count.set(nodes[leftIndex].index,  count.get(nodes[leftIndex].index) + rightPartLessThanLeftCount);
                 tmpArray[tmpIndex++] = nodes[leftIndex++];
-                preElemIsRightPart = false;
             } else {
-                if (leftIndex <= mid) {
-                    count.set(nodes[leftIndex].index,  count.get(nodes[leftIndex].index) + 1);
-                }
                 tmpArray[tmpIndex++] = nodes[rightIndex++];
-                preElemIsRightPart = true;
             }
         }
 
@@ -113,8 +106,8 @@ public class RightPartLessCount {
         RightPartLessCount lessCount = new RightPartLessCount();
         int[] nums = {5,4,3,2,1};
 
-        System.out.println(lessCount.countSmaller2(nums));
         System.out.println(lessCount.countSmaller(nums));
+        System.out.println(lessCount.countSmaller2(nums));
         int[] nums3 = {5,2,6,1};
         System.out.println(lessCount.countSmaller(nums3));
         System.out.println(lessCount.countSmaller2(nums3));
@@ -134,7 +127,15 @@ public class RightPartLessCount {
         System.out.println(lessCount.countSmaller2(nums5));
 
 
-        int[] nums6 = {5};
+        /**
+         * 8:1
+         * 9:1+1
+         * 7:1
+         * 1 7 9
+         * 5 8
+         * 1 5 8 9
+         */
+        int[] nums6 = {1,9,7,8,5};
         System.out.println(lessCount.countSmaller(nums6));
         System.out.println(lessCount.countSmaller2(nums6));
     }

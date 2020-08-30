@@ -1,6 +1,5 @@
 package com.theonecai.leetcode.trie;
 
-import org.apache.commons.lang.time.StopWatch;
 import org.junit.Assert;
 
 import java.util.ArrayList;
@@ -172,11 +171,7 @@ public class SearchWords {
                 {'f', 'q', 'a', 'a', 'o'},
                 {'f', 'q', 'a', 'a', 'o'},
         };
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<String> result = searchWord.findWords(chars, words);
-        stopWatch.stop();
-        System.out.println("cost:" + stopWatch.getTime());
         result.forEach(System.out::println);
         Assert.assertEquals(12, result.size());
         Assert.assertFalse(result.contains("abcb"));
@@ -187,11 +182,7 @@ public class SearchWords {
 
         char[][] chars2 = {{'y', 'o', 'u', 'a', 'r', 'e','a', 'g', 'o','o','d','m','a','n'}};
         String[] wds = {"you", "are", "a", "good", "man", "are", "ar", "a", "youau"};
-        stopWatch.reset();
-        stopWatch.start();
         result = searchWord.findWords(chars2, wds);
-        stopWatch.stop();
-        System.out.println("cost:" + stopWatch.getTime());
         result.forEach(System.out::println);
         Assert.assertEquals(8, result.size());
     }

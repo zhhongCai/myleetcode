@@ -1,13 +1,8 @@
 package com.theonecai.leetcode.heap;
 
-import com.theonecai.algorithms.JsonUtil;
 import org.junit.Assert;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -183,20 +178,6 @@ public class NetworkDelayTime {
         Assert.assertEquals(6, delayTime.networkDelayTime(times8, 3, 2));
         System.out.println("cost=" + (System.currentTimeMillis() - a));
 
-        ClassLoader loader = delayTime.getClass().getClassLoader();
-        URL url = loader.getResource("networkdelaytime-data.txt");
-        File file = new File(url.getFile());
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String data = br.readLine();
-        List<List<Integer>> list = JsonUtil.readValue(data, List.class);
-        int[][] times9 = new int[list.size()][3];
-        int i = 0;
-        for (List<Integer> ints : list) {
-            times9[i++] = new int[]{ints.get(0), ints.get(1), ints.get(2)};
-        }
-        a = System.currentTimeMillis();
-        Assert.assertEquals(9, delayTime.networkDelayTime(times9, 75, 25));
-        System.out.println("cost=" + (System.currentTimeMillis() - a));
     }
 
 

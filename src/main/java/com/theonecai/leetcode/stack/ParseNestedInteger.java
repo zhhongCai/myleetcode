@@ -1,6 +1,5 @@
 package com.theonecai.leetcode.stack;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Assert;
 
 import java.util.ArrayList;
@@ -108,6 +107,6 @@ public class ParseNestedInteger {
         ParseNestedInteger parseNestedInteger = new ParseNestedInteger();
 //        NestedInteger nestedInteger = parseNestedInteger.deserialize("[123,[-4,[5]],6]");
         NestedInteger nestedInteger = parseNestedInteger.deserialize("342");
-        Assert.assertTrue(CollectionUtils.isNotEmpty(nestedInteger.list));
+        Assert.assertTrue(nestedInteger.list != null);
     }
 }

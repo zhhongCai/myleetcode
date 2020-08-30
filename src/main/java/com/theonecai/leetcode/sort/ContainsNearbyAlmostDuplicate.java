@@ -64,7 +64,7 @@ public class ContainsNearbyAlmostDuplicate {
                 }
                 // treeSet中小于等于nums[i]的最大值
                 node = treeSet.floor(new Node(nums[i], -1));
-                border = nums[i] - t;
+                border = (long)nums[i] - t;
                 while (node != null && node.val >= border) {
                     if (Math.abs(tmp.index - node.indexs.first()) <= k ||
                             Math.abs(tmp.index - node.indexs.last()) <= k) {
@@ -146,6 +146,10 @@ public class ContainsNearbyAlmostDuplicate {
         int[] nums5 = {-1,2147483647};
         Assert.assertFalse(containsNearbyAlmostDuplicate.containsNearbyAlmostDuplicate(nums5, 1, 2147483647));
         Assert.assertFalse(containsNearbyAlmostDuplicate.containsNearbyAlmostDuplicate2(nums5, 1, 2147483647));
+
+        int[] nums6 = {-2147483648,-2147483647};
+        Assert.assertTrue(containsNearbyAlmostDuplicate.containsNearbyAlmostDuplicate(nums6, 3, 3));
+        Assert.assertTrue(containsNearbyAlmostDuplicate.containsNearbyAlmostDuplicate2(nums6, 3, 3));
 
     }
 }

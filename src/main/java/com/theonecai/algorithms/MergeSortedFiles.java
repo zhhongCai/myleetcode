@@ -1,7 +1,5 @@
 package com.theonecai.algorithms;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -78,7 +76,7 @@ public class MergeSortedFiles {
         }
         Node node = null;
         String line = bufferedReaderMap.get(currentFile).readLine();
-        if (StringUtils.isNotBlank(line)) {
+        if (line != null) {
             node = new Node(currentFile, line);
             return node;
         }
@@ -139,9 +137,9 @@ public class MergeSortedFiles {
         try (BufferedReader br = new BufferedReader(new FileReader(new File(outFile)))) {
             String pre = br.readLine();
             String current = br.readLine();
-            while (StringUtils.isNotBlank(current)) {
+            while (current != null || !current.trim().equals("")) {
                 current = br.readLine();
-                if (StringUtils.isBlank(current)) {
+                if (current == null) {
                     break;
                 }
                 if (pre.compareTo(current) > 0) {
