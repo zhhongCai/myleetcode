@@ -133,19 +133,19 @@ public class ReversedNumPairs {
     public static void main(String[] args) {
         ReversedNumPairs reversedNumPairs = new ReversedNumPairs();
         int[] nums = {2147483647,2147483647,2147483647,2147483647,2147483647,2147483647};
-        Assert.assertEquals(0, reversedNumPairs.reversePairs(nums));
         Assert.assertEquals(0, reversedNumPairs.reversePairs2(nums));
+        Assert.assertEquals(0, reversedNumPairs.reversePairs(nums));
 
         int[] nums2 = {-5, -5};
-        Assert.assertEquals(1, reversedNumPairs.reversePairs(nums2));
         Assert.assertEquals(1, reversedNumPairs.reversePairs2(nums2));
+        Assert.assertEquals(1, reversedNumPairs.reversePairs(nums2));
         /**
          * 2 3 4
          *
          * 1 5
          */
         int[] nums3 = {2,4,3,5,1};
-        Assert.assertEquals(3, reversedNumPairs.reversePairs(nums3));
         Assert.assertEquals(3, reversedNumPairs.reversePairs2(nums3));
+        Assert.assertEquals(3, reversedNumPairs.reversePairs(nums3));
     }
 }
