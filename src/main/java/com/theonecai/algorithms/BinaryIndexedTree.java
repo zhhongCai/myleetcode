@@ -20,8 +20,6 @@ public class BinaryIndexedTree {
         int[] pre = new int[arr.length + 1];
         for (int i = 1; i <= arr.length; i++) {
             pre[i] = pre[i - 1] + arr[i - 1];
-        }
-        for (int i = 1; i <= arr.length; i++) {
             sum[i] = pre[i] - pre[i - lowbit(i)];
         }
     }
