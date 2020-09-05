@@ -7,7 +7,7 @@ import java.util.Arrays;
 /**
  * leetcode 767
  *
- * @Author: zhenghong.cai
+ * @Author: theonecai
  * @Date: Create in 2020/8/6 16:53
  * @Description:
  */
