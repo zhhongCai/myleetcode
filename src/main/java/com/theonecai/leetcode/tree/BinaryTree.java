@@ -1,13 +1,16 @@
 package com.theonecai.leetcode.tree;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.TreeMap;
 
 /**
- * leetcode 144, 94
+ * leetcode 144, 94, 102
  * @Author: theonecai
  * @Date: Create in 2020/6/20 19:41
  * @Description:
@@ -220,6 +223,48 @@ public class BinaryTree {
         return result;
     }
 
+    /**
+     * 按层遍历(BFS)
+     * @param root
+     * @return
+     */
+    public List<List<Integer>> levelOrder(TreeNode root) {
+
+        return bfsLevelTraversal(root);
+    }
+
+    private List<List<Integer>> bfsLevelTraversal(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+        Map<Integer, List<Integer>> levelMap = new TreeMap<>();
+        Queue<LevelNode> queue = new LinkedList<>();
+        queue.offer(new LevelNode(0, root));
+        while (!queue.isEmpty()) {
+            LevelNode levelNode = queue.poll();
+            levelMap.computeIfAbsent(levelNode.level, ArrayList::new).add(levelNode.node.val);
+
+            if (levelNode.node.left != null) {
+                queue.offer(new LevelNode(levelNode.level + 1, levelNode.node.left));
+            }
+            if (levelNode.node.right != null) {
+                queue.offer(new LevelNode(levelNode.level + 1, levelNode.node.right));
+            }
+        }
+
+        return new ArrayList<>(levelMap.values());
+    }
+
+    static class LevelNode {
+        int level;
+        TreeNode node;
+
+        public LevelNode(int level, TreeNode node) {
+            this.level = level;
+            this.node = node;
+        }
+    }
+
 
     public static void main(String[] args) {
         TreeNode root = new TreeNode(7);
@@ -248,5 +293,8 @@ public class BinaryTree {
         list = tree.dfsTraversal(root);
         list.forEach(e -> System.out.print(e + " "));
         System.out.println();
+
+        List<List<Integer>> levelList = tree.levelOrder(root);
+        levelList.forEach(System.out::println);
     }
 }
