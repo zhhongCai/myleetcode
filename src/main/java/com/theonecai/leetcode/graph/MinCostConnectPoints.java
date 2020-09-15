@@ -34,6 +34,19 @@ public class MinCostConnectPoints {
         return prime(points, points.length);
     }
 
+    /**
+     * prime: 最小生成树
+     *
+     * 核心思想：
+     * BFS+最小堆
+     *
+     * 1.随机取一个点，这个点直接可达的点的边加入堆
+     * 2.取最小边e，边e对应到达到点v,v还没访问过时,取v直接可达的点的边(排除v到已访问的点的边)入堆
+     * 3.重复步骤2，直到边数=点数-1
+     * @param points
+     * @param n
+     * @return
+     */
     private int prime(int[][] points, int n) {
         boolean[] visited = new boolean[n];
         PriorityQueue<Edge> minHeap = new PriorityQueue<>();
@@ -64,6 +77,23 @@ public class MinCostConnectPoints {
         return dist;
     }
 
+    /**
+     * kruskal: 最小生成树
+     *
+     * 核心思想：
+     * 每次取最小边e(贪心)
+     * 对取的边e判断是否构成环(并查集)
+     *
+     * 步骤：
+     * 1.对所有边按距离排序
+     * 2.循环取出最小的边e
+     * 3.判断加入边e时是否构成环，不构成才可加入
+     *   3.1 使用并查集判断边e的两个点u,v是否有相同的根,相同根则有环
+     * 4.直到边数=点数-1
+     * @param edgeList
+     * @param n
+     * @return
+     */
     private int kruskal(List<Edge> edgeList, int n) {
         // root[i] = v 表示点i到v
         int[] root = new int[n];
@@ -74,6 +104,7 @@ public class MinCostConnectPoints {
         for (Edge edge : edgeList) {
             int uRoot = find(root, edge.u);
             int vRoot = find(root, edge.v);
+            // 没有环
             if (uRoot != vRoot) {
                 root[uRoot] = vRoot;
                 dist += edge.dist;
