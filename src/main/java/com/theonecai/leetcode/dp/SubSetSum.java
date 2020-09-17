@@ -8,7 +8,7 @@ import java.util.Arrays;
  * 给定数组，sum,判断是否存在子集合其和为sum:
  * https://www.geeksforgeeks.org/subset-sum-problem-dp-25/
  *
- * @Author: zhenghong.cai
+ * @Author: theonecai
  * @Date: Create in 2020/9/15 14:29
  * @Description:
  */

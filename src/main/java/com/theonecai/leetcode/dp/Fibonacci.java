@@ -50,7 +50,7 @@ public class Fibonacci {
 
     public static void main(String[] args) {
         Fibonacci fibonacci = new Fibonacci();
-        Assert.assertEquals(fibonacci.fabonacciRecursive(20), fibonacci.fabonacciDp(20));
-        Assert.assertEquals(fibonacci.fabonacciDp2(100), fibonacci.fabonacciDp(100));
+//        Assert.assertEquals(fibonacci.fabonacciRecursive(44), fibonacci.fabonacciDp(44));
+        System.out.println(fibonacci.fabonacciDp2(45));
     }
 }
