@@ -52,11 +52,38 @@ public class TaskSchedule {
         return totalTime;
     }
 
+    public int leastInterval2(char[] tasks, int n) {
+        int[] taskCount = new int[26];
+        for (char task : tasks) {
+            taskCount[task - 'A']++;
+        }
+        int max = 0;
+        for (int c : taskCount) {
+            max = Math.max(max, c);
+        }
+        int totalTime = 0;
+        int count = 0;
+        for (int c : taskCount) {
+            if (c == max) {
+                count++;
+            }
+        }
+        totalTime = (n + 1) * (max - 1) + count;
+
+        return Math.max(totalTime, tasks.length);
+    }
+
     public static void main(String[] args) {
         TaskSchedule taskSchedule = new TaskSchedule();
-        /**
-         * ABCADEAFGA--A--A
-         */
+        Assert.assertEquals(16, taskSchedule.leastInterval2(new char[]{'A','A','A','A','A','A','B','C','D','E','F','G'}, 2));
+        Assert.assertEquals(10, taskSchedule.leastInterval2(new char[]{'A','A','B','B','A','A'}, 2));
+        Assert.assertEquals(7, taskSchedule.leastInterval2(new char[]{'A','A','B','B','A','A'}, 1));
+        Assert.assertEquals(8, taskSchedule.leastInterval2(new char[]{'A','A','B','B','A','B'}, 2));
+        Assert.assertEquals(9, taskSchedule.leastInterval2(new char[]{'A','A','B','B','A','B', 'C','C','C'}, 2));
+        Assert.assertEquals(10, taskSchedule.leastInterval2(new char[]{'A','A','B','B','A','B'}, 3));
+        Assert.assertEquals(5, taskSchedule.leastInterval2(new char[]{'A','A','A'}, 1));
+
+
         Assert.assertEquals(16, taskSchedule.leastInterval(new char[]{'A','A','A','A','A','A','B','C','D','E','F','G'}, 2));
         Assert.assertEquals(10, taskSchedule.leastInterval(new char[]{'A','A','B','B','A','A'}, 2));
         Assert.assertEquals(7, taskSchedule.leastInterval(new char[]{'A','A','B','B','A','A'}, 1));
@@ -69,7 +96,10 @@ public class TaskSchedule {
             tasks[i] = (char)('A' + i % 26);
         }
         RunUtil.runAndPrintCostTime(() -> {
-            System.out.println(taskSchedule.leastInterval(tasks, 30));
+            System.out.println(taskSchedule.leastInterval(tasks, 50));
+        });
+        RunUtil.runAndPrintCostTime(() -> {
+            System.out.println(taskSchedule.leastInterval2(tasks, 50));
         });
     }
 }
