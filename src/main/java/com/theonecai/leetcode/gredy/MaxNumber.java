@@ -39,7 +39,7 @@ public class MaxNumber {
             int[] res = merge(part, part2);
 
             // 更新结果
-            result = arrayCompare(result, res) < 0 ? res : result;
+            result = arrayCompare(result, res, k) < 0 ? res : result;
             i++;
         }
         return result;
@@ -130,14 +130,14 @@ public class MaxNumber {
         return result;
     }
 
-    private int arrayCompare(int[] a, int[] b) {
+    private int arrayCompare(int[] a, int[] b, int len) {
         if (a.length == 0) {
             return -1;
         }
         if (b.length == 0) {
             return 1;
         }
-        for (int i = 0; i < a.length; i++) {
+        for (int i = 0; i < len; i++) {
             if (a[i] > b[i]) {
                 return 1;
             } else if (a[i] < b[i]) {
@@ -207,13 +207,23 @@ public class MaxNumber {
             } else {
                 int res;
                 if (max.index == nums1.length - 1 && max2.index == nums1.length - 1) {
-                    res = arrayCompare(nums1, 0, nums2, 0);
-                    if (res > 0) {
-                        result[index++] = max.num;
-                        start = max.index + 1;
-                    } else {
+                    Num mm = getMaxNum(list, 0, max.index);
+                    Num mm2 = getMaxNum(list2, 0, max2.index);
+                    if (mm.num > mm2.num) {
                         result[index++] = max2.num;
                         start2 = max2.index + 1;
+                    } else if (mm.num < mm2.num) {
+                        result[index++] = max.num;
+                        start = max.index + 1;
+                    }  else {
+                        res = arrayCompare(nums1, Math.max(0, mm.index), nums2, Math.max(0, mm2.index));
+                        if (res > 0) {
+                            result[index++] = max.num;
+                            start = max.index + 1;
+                        } else {
+                            result[index++] = max2.num;
+                            start2 = max2.index + 1;
+                        }
                     }
                 } else {
                     res = arrayCompare(nums1, max.index + 1, nums2, max2.index + 1);
@@ -270,6 +280,10 @@ public class MaxNumber {
     public static void main(String[] args) {
         MaxNumber maxNumber = new MaxNumber();
         int[] res2;
+        int[] nums8 = {4,6,9,1,0,6,3,1,5,2,8,3,8,8,4,7,2,0,7,1,9,9,0,1,5,9,3,9,3,9,7,3,0,8,1,0,9,1,6,8,8,4,4,5,7,5,2,8,2,7,7,7,4,8,5,0,9,6,9,2};
+		int[] nums82 = {9,9,4,5,1,2,0,9,3,4,6,3,0,9,2,8,8,2,4,8,6,5,4,4,2,9,5,0,7,3,7,5,9,6,6,8,8,0,2,4,2,2,1,6,6,5,3,6,2,9,6,4,5,9,7,8,0,7,2,3};
+        Assert.assertEquals(Arrays.toString(maxNumber.maxNumber2(nums8, nums82, 60)),
+                Arrays.toString(maxNumber.maxNumber(nums8, nums82, 60)));
 
         int[] nums7 = {2,9,7,7,9,2,5,5,1,9,6,8,4,5,1,3,3,1,4,8,7,1,8,2,2,9,6,9,9,7,4,0,6,5,9,0,4,7,6,8,0,1,6};
         System.out.println(Arrays.toString(maxNumber.getMaxNums(nums7, 7)));
@@ -321,25 +335,35 @@ public class MaxNumber {
             int[] res3 = maxNumber.maxNumber(nums4, nums42, 100000);
 //            ArrayUtil.print(res3);
         });
+        RunUtil.runAndPrintCostTime(() -> {
+//            int[] res3 = maxNumber.maxNumber2(nums4, nums42, 10000);
+//            ArrayUtil.print(res3);
+        });
 
         int[] res = maxNumber.maxNumber(new int[]{1,3,9,7,1,5,5,1,8,1}, new int[]{1,4,5,9,7,0,2,5,4,6,}, 20);
-        Assert.assertEquals(Arrays.toString(new int[]{1,4,5,9,7,1,3,9,7,1,5,5,1,8,1,0,2,5,4,6}), Arrays.toString(res));
+        Assert.assertEquals(Arrays.toString(maxNumber.maxNumber2(new int[]{1,3,9,7,1,5,5,1,8,1},
+                new int[]{1,4,5,9,7,0,2,5,4,6,}, 20)), Arrays.toString(res));
 
         res = maxNumber.maxNumber(new int[]{3, 4, 6, 5}, new int[]{9, 1, 2, 3, 8, 3}, 5);
-        Assert.assertEquals(Arrays.toString(new int[]{9,8,6,5,3}), Arrays.toString(res));
+        Assert.assertEquals(Arrays.toString(
+                maxNumber.maxNumber2(new int[]{3, 4, 6, 5}, new int[]{9, 1, 2, 3, 8, 3}, 5)), Arrays.toString(res));
 
 
         res = maxNumber.maxNumber(new int[]{3, 4, 6, 5,9}, new int[]{9, 1, 2, 3, 8, 3}, 5);
-        Assert.assertEquals(Arrays.toString(new int[]{9, 9, 3, 8, 3}), Arrays.toString(res));
+        Assert.assertEquals(Arrays.toString(
+                maxNumber.maxNumber2(new int[]{3, 4, 6, 5,9}, new int[]{9, 1, 2, 3, 8, 3}, 5)), Arrays.toString(res));
 
         res2 = maxNumber.maxNumber(new int[]{6, 7}, new int[]{6, 0, 4}, 5);
-        Assert.assertEquals(Arrays.toString(new int[]{6, 7, 6, 0, 4}), Arrays.toString(res2));
+        Assert.assertEquals(Arrays.toString(
+                maxNumber.maxNumber2(new int[]{6, 7}, new int[]{6, 0, 4}, 5)), Arrays.toString(res2));
 
         res2 = maxNumber.maxNumber(new int[]{1,2,3,4,5,6,7,8,9}, new int[]{2,3,4}, 6);
-        Assert.assertEquals(Arrays.toString(new int[]{7,8,9,2,3,4}), Arrays.toString(res2));
+        Assert.assertEquals(Arrays.toString(
+                maxNumber.maxNumber2(new int[]{1,2,3,4,5,6,7,8,9}, new int[]{2,3,4}, 6)), Arrays.toString(res2));
 
 
         res2 = maxNumber.maxNumber(new int[]{1,1,1,1,1,1,1,1}, new int[]{2,2,2}, 11);
-        Assert.assertEquals(Arrays.toString(new int[]{2,2,2,1,1,1,1,1,1,1,1}), Arrays.toString(res2));
+        Assert.assertEquals(Arrays.toString(
+                maxNumber.maxNumber2(new int[]{1,1,1,1,1,1,1,1}, new int[]{2,2,2}, 11)), Arrays.toString(res2));
     }
 }
