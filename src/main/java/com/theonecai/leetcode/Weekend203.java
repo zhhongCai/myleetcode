@@ -20,7 +20,6 @@ public class Weekend203 {
     public List<Integer> mostVisited(int n, int[] rounds) {
         List<Integer> result = new ArrayList<>();
         Map<Integer, Node> countMap = new HashMap<>();
-        int i = 0;
         for (int j = 1; j < rounds.length; j++) {
             if (rounds[j - 1] < rounds[j]) {
                 int k = (j == 1 ? rounds[j - 1] : rounds[j - 1] + 1);
