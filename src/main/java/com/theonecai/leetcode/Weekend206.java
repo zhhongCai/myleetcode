@@ -1,11 +1,10 @@
 package com.theonecai.leetcode;
 
-import org.junit.Assert;
-
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.junit.Assert;
 
 /**
  * @Author: theonecai

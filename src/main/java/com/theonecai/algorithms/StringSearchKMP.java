@@ -50,10 +50,46 @@ public class StringSearchKMP {
         return -1;
     }
 
+    public static int[][] genDp(String pattern) {
+        // dp[j][c] = 表示匹配到了状态j,下个字符为c
+        int[][] dp = new int[pattern.length()][257];
+        dp[0][pattern.charAt(0)] = 1;
+        int x = 0;
+        for (int j = 1; j < pattern.length(); j++) {
+            for (int c = 0; c < 257; c++) {
+                dp[j][c] = dp[x][c];
+            }
+            dp[j][pattern.charAt(j)] = j + 1;
+            x = dp[x][pattern.charAt(j)];
+        }
+
+        return dp;
+    }
+
+    public static int searchWithDp(String text, String pattern) {
+        int[][] dp = genDp(pattern);
+        int j = 0;
+        for (int i = 0; i < text.length(); i++) {
+            j = dp[j][text.charAt(i)];
+            if (j == pattern.length()) {
+                return i - j + 1;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
         String str = RandomStringUtil.randomString(28);
         String pattern = str.substring(11, 20);
         int p = StringSearchKMP.search(str, pattern);
+        System.out.println("source str: " + str);
+        System.out.println("pattern   : " + pattern);
+        if (p != -1) {
+            System.out.println("find position: " + p + ": " + str.substring(0, p) + " " + pattern + " " + str.substring(p + pattern.length()));
+        } else {
+            System.out.println("notfound");
+        }
+        p = StringSearchKMP.searchWithDp(str, pattern);
         System.out.println("source str: " + str);
         System.out.println("pattern   : " + pattern);
         if (p != -1) {
