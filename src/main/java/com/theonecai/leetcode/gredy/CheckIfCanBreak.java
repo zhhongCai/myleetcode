@@ -4,7 +4,7 @@ import org.junit.Assert;
 
 /**
  * leetcode 1433
- * @Author: zhenghong.cai
+ * @Author: theonecai
  * @Date: Create in 2020/10/17 13:51
  * @Description:
  */
