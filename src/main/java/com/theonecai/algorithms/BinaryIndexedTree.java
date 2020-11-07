@@ -52,7 +52,7 @@ public class BinaryIndexedTree {
         int i = x;
         while (i < sum.length) {
             sum[i] += addVal;
-            i += lowbit(x);
+            i += lowbit(i);
         }
     }
 
