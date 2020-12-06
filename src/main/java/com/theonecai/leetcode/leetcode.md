@@ -2,7 +2,11 @@
 
 ### [数组](./array)
 
+ - [1674 差分数组](./array/MinMoves.java)
+
 ### [链表](./list)
+
+ - [2](./list/AddTwoNumbers.java)
 
 ### [Map](./map)
 
