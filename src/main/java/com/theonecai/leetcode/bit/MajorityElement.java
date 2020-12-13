@@ -5,7 +5,10 @@ import org.junit.Assert;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MostNum {
+/**
+ * leetcode 169
+ */
+public class MajorityElement {
 
     public int mostNum2(int[] nums) {
         Map<Integer, Integer> countMap = new HashMap<>();
@@ -44,9 +47,9 @@ public class MostNum {
     }
 
     public static void main(String[] args) {
-        MostNum mostNum = new MostNum();
-        Assert.assertEquals(1, mostNum.mostNum(new int[]{1}));
-        Assert.assertEquals(1, mostNum.mostNum(new int[]{1,1,1,2,2}));
-        Assert.assertEquals(2, mostNum.mostNum(new int[]{1,1,2,2,2,2}));
+        MajorityElement majorityElement = new MajorityElement();
+        Assert.assertEquals(1, majorityElement.mostNum(new int[]{1}));
+        Assert.assertEquals(1, majorityElement.mostNum(new int[]{1,1,1,2,2}));
+        Assert.assertEquals(2, majorityElement.mostNum(new int[]{1,1,2,2,2,2}));
     }
 }
