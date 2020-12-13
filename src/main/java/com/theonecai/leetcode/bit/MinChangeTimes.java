@@ -3,8 +3,11 @@ package com.theonecai.leetcode.bit;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * leetcode 397
+ */
 public class MinChangeTimes {
-    public int optTime(int n) {
+    public int integerReplacement(int n) {
         int c = 0;
         while (n > 1) {
             if ((n & 1) == 0) {
@@ -18,6 +21,11 @@ public class MinChangeTimes {
                     n -= 2;
                     c += 2;
                 } else {
+                    if (n == Integer.MAX_VALUE) {
+                        n--;
+                        c++;
+                        continue;
+                    }
                     n++;
                     c++;
                 }
@@ -36,9 +44,9 @@ public class MinChangeTimes {
         }
         int c = 0;
         if ((n & 1) == 0) {
-            c += optTime(n >> 1) + 1;
+            c += integerReplacement(n >> 1) + 1;
         } else {
-            c += Math.min(optTime(n - 1), optTime(n + 1)) + 1;
+            c += Math.min(integerReplacement(n - 1), integerReplacement(n + 1)) + 1;
         }
 
         map.put(n, c);
@@ -47,15 +55,16 @@ public class MinChangeTimes {
 
 
     public static void main(String[] args) {
+        System.out.println(Integer.MAX_VALUE);
         MinChangeTimes minChangeTimes = new MinChangeTimes();
-        System.out.println(minChangeTimes.optTime(3));
+        System.out.println(minChangeTimes.integerReplacement(3));
         System.out.println(minChangeTimes.optTimeDf(3));
-        for (int i = 1; i < Integer.MAX_VALUE - 1; i++) {
+       /* for (int i = 1; i < Integer.MAX_VALUE - 1; i++) {
 
-            if (minChangeTimes.optTime(i) != minChangeTimes.optTimeDf(i)) {
+            if (minChangeTimes.integerReplacement(i) != minChangeTimes.optTimeDf(i)) {
                 System.out.println(i);
                 break;
             }
-        }
+        }*/
     }
 }

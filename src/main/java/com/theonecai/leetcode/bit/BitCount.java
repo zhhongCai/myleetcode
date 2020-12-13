@@ -2,11 +2,14 @@ package com.theonecai.leetcode.bit;
 
 import org.junit.Assert;
 
+/**
+ * leetcode 191
+ */
 public class BitCount {
 
-    public int bitCount2(int num) {
+    public int hammingWeight2(int num) {
         int count = 0;
-        while (num > 0) {
+        while (num != 0) {
             if ((num & 1) != 0) {
                 count++;
             }
@@ -15,10 +18,10 @@ public class BitCount {
         return count;
     }
 
-    public int bitCount(int num) {
+    public int hammingWeight(int num) {
 //        return Integer.bitCount(num);
         int count = 0;
-        while (num > 0) {
+        while (num != 0) {
             count++;
             num &= (num - 1);
         }
@@ -27,6 +30,6 @@ public class BitCount {
 
     public static void main(String[] args) {
         BitCount bitCount = new BitCount();
-        Assert.assertEquals(bitCount.bitCount(123), bitCount.bitCount2(123));
+        Assert.assertEquals(bitCount.hammingWeight(123), bitCount.hammingWeight2(123));
     }
 }

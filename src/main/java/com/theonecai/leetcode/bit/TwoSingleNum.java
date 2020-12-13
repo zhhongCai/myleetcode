@@ -2,9 +2,12 @@ package com.theonecai.leetcode.bit;
 
 import java.util.Arrays;
 
+/**
+ * leetcode 260
+ */
 public class TwoSingleNum {
 
-    public int[] find(int[] nums) {
+    public int[] singleNumber(int[] nums) {
         // 假设两个数为x,y,则bitmask= x ^ y
         int bitmask = 0;
         for (int num : nums) {
@@ -24,6 +27,6 @@ public class TwoSingleNum {
 
     public static void main(String[] args) {
         TwoSingleNum twoSingleNum = new TwoSingleNum();
-        System.out.println(Arrays.toString(twoSingleNum.find(new int[]{1,2,1,2,3,4})));
+        System.out.println(Arrays.toString(twoSingleNum.singleNumber(new int[]{1,2,1,2,3,4})));
     }
 }
