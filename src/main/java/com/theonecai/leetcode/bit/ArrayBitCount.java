@@ -1,13 +1,16 @@
 package com.theonecai.leetcode.bit;
 
 
+/**
+ * leetcode 338
+ */
 public class ArrayBitCount {
 
-    public int[] bitCount(int n) {
+    public int[] countBits(int n) {
         int[] result = new int[n + 1];
         for (int i = 0; i <= n; i++) {
-            result[i] = Integer.bitCount(i);
-//            result[i] = popCount(i);
+//            result[i] = Integer.bitCount(i);
+            result[i] = popCount(i);
         }
         return result;
     }
@@ -22,7 +25,7 @@ public class ArrayBitCount {
         return c;
     }
 
-    public int[] bitCountDp(int n) {
+    public int[] countBitsDp(int n) {
         int[] result = new int[n + 1];
         result[0] = 0;
         for (int i = 1; i <= n; i++) {
@@ -44,7 +47,7 @@ public class ArrayBitCount {
         return result;
     }
 
-    public int[] bitCountDp2(int n) {
+    public int[] countBitsDp2(int n) {
         int[] result = new int[n + 1];
         result[0] = 0;
         for (int i = 1; i <= n; i++) {
@@ -54,7 +57,7 @@ public class ArrayBitCount {
         return result;
     }
 
-    public int[] bitCountDp3(int n) {
+    public int[] countBitsDp3(int n) {
         int[] result = new int[n + 1];
         result[0] = 0;
         for (int i = 1; i <= n; i++) {
@@ -68,10 +71,10 @@ public class ArrayBitCount {
     public static void main(String[] args) {
         System.out.println(Integer.toBinaryString(-3));
         ArrayBitCount arrayBitCount = new ArrayBitCount();
-        int[] a = arrayBitCount.bitCount(1000000);
-        int[] b = arrayBitCount.bitCountDp(1000000);
-        int[] c = arrayBitCount.bitCountDp2(1000000);
-        int[] d = arrayBitCount.bitCountDp3(1000000);
+        int[] a = arrayBitCount.countBits(1000000);
+        int[] b = arrayBitCount.countBitsDp(1000000);
+        int[] c = arrayBitCount.countBitsDp2(1000000);
+        int[] d = arrayBitCount.countBitsDp3(1000000);
         for (int i = 0; i < a.length; i++) {
             if (a[i] != b[i] && a[i] != c[i] && a[i] != d[i]) {
                 System.out.println("i=" + i + "," + a[i] + "," + b[i] + "," + c[i] + "," + d[i]);

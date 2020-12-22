@@ -2,13 +2,15 @@ package com.theonecai.leetcode.bit;
 
 import org.junit.Assert;
 
+/**
+ * leetcode 190ß
+ */
 public class BinaryReversed {
 
     public int reverseBits(int n) {
         long result = 0;
         int shiftCount = 0;
-        int last = n < 0 ? 1 : 0;
-        while (shiftCount < 31) {
+        while (shiftCount < 32) {
             result <<= 1;
             if ((n & 1) == 1) {
                 result |= 1;
@@ -16,10 +18,6 @@ public class BinaryReversed {
             n >>= 1;
 
             shiftCount++;
-        }
-        if (last == 1) {
-            result >>= 1;
-            result |= 1;
         }
 
         return (int)result;

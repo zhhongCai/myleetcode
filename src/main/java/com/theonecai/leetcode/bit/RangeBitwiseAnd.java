@@ -1,6 +1,8 @@
 package com.theonecai.leetcode.bit;
 
 /**
+ * leetcode 201
+ *
  * @Author: theonecai
  * @Date: Create in 2020/8/23 10:00
  * @Description:
@@ -8,11 +10,17 @@ package com.theonecai.leetcode.bit;
 public class RangeBitwiseAnd {
 
     public int rangeBitwiseAnd(int m, int n) {
-        int result = m;
-        for (int i = m + 1; i <= n; i++) {
-            result &= i;
+        if (m == n) {
+            return m;
         }
-        return result;
+        int shift = 0;
+        while (m < n) {
+            m >>= 1;
+            n >>= 1;
+            shift++;
+        }
+
+        return m << shift;
     }
 
     public static void main(String[] args) {
