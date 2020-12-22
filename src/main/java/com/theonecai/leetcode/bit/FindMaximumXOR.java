@@ -3,13 +3,12 @@ package com.theonecai.leetcode.bit;
 import org.junit.Assert;
 
 /**
- * 421
- *
- *
+ * leetcode 421
+ * theonecai
  */
-public class MaxTowNumXorValue {
+public class FindMaximumXOR {
 
-    public int xorValue(int[] nums) {
+    public int findMaximumXOR(int[] nums) {
         buildTree(nums);
 
         int res = 0;
@@ -110,9 +109,9 @@ public class MaxTowNumXorValue {
     }
 
     public static void main(String[] args) {
-        MaxTowNumXorValue xorValue = new MaxTowNumXorValue();
-        Assert.assertEquals(7, xorValue.xorValue(new int[]{1,2,3,4,5}));
-        Assert.assertEquals(0, xorValue.xorValue(new int[]{1,1,1,1}));
-        Assert.assertEquals(Integer.parseInt("1111111110", 2), xorValue.xorValue(new int[]{1,Integer.parseInt("1111111111", 2)}));
+        FindMaximumXOR xorValue = new FindMaximumXOR();
+        Assert.assertEquals(7, xorValue.findMaximumXOR(new int[]{1,2,3,4,5}));
+        Assert.assertEquals(0, xorValue.findMaximumXOR(new int[]{1,1,1,1}));
+        Assert.assertEquals(Integer.parseInt("1111111110", 2), xorValue.findMaximumXOR(new int[]{1,Integer.parseInt("1111111111", 2)}));
     }
 }
