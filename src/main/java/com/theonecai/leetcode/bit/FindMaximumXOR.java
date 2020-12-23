@@ -11,6 +11,48 @@ public class FindMaximumXOR {
     public int findMaximumXOR(int[] nums) {
         buildTree(nums);
 
+        // 直接从二进制字典树中计算最大异或值
+        return maximumXOR();
+    }
+
+    private int maximumXOR() {
+        int a = -1;
+        int b = 0;
+        TreeNode aNode = root;
+        TreeNode bNode = root;
+        for (int i =  maxLevel - 1; i >= 0; i--) {
+            boolean bZeroBitExists = bNode.next[0] != null;
+            boolean bOneBitExists = bNode.next[1] != null;
+            boolean aZeroBitExists = aNode.next[0] != null;
+            boolean aOneBitExists = aNode.next[1] != null;
+            if (a == -1 && aOneBitExists) {
+                a = bZeroBitExists ? 1 << i : -1;
+                bNode = bZeroBitExists ? bNode.next[0] : bNode.next[1];
+                aNode = aNode.next[1];
+            } else {
+               if (aOneBitExists && bZeroBitExists) {
+                   a += 1 << i;
+                   aNode = aNode.next[1];
+                   bNode = bNode.next[0];
+               } else if (aZeroBitExists && bOneBitExists) {
+                   b += 1 << i;
+                   aNode = aNode.next[0];
+                   bNode = bNode.next[1];
+               } else {
+                   aNode = aOneBitExists ? aNode.next[1] : aNode.next[0];
+                   bNode = bOneBitExists ? bNode.next[1] : bNode.next[0];
+               }
+            }
+        }
+        if (a == -1) {
+            return 0;
+        }
+        return a ^ b;
+    }
+
+    public int findMaximumXOR2(int[] nums) {
+        buildTree(nums);
+
         int res = 0;
         for (int num : nums) {
             res = Math.max(res, calcMaxXorValueFor(num));
@@ -110,8 +152,27 @@ public class FindMaximumXOR {
 
     public static void main(String[] args) {
         FindMaximumXOR xorValue = new FindMaximumXOR();
+        Assert.assertEquals(Integer.parseInt("11", 2), xorValue.findMaximumXOR(new int[]{1,Integer.parseInt("10", 2),Integer.parseInt("11", 2)}));
+        Assert.assertEquals(Integer.parseInt("111", 2), xorValue.findMaximumXOR(new int[]{
+                Integer.parseInt("1", 2),
+                Integer.parseInt("10", 2),
+                Integer.parseInt("11", 2),
+                Integer.parseInt("100", 2),
+                Integer.parseInt("101", 2),
+                Integer.parseInt("110", 2),
+                Integer.parseInt("111", 2),
+        }));
+        Assert.assertEquals(Integer.parseInt("110000", 2), xorValue.findMaximumXOR(new int[]{
+                Integer.parseInt("1111111", 2),
+                Integer.parseInt("1101111", 2),
+                Integer.parseInt("1111111", 2),
+                Integer.parseInt("1101111", 2),
+                Integer.parseInt("1011111", 2),
+                Integer.parseInt("1001111", 2),
+                Integer.parseInt("1011111", 2),
+        }));
+        Assert.assertEquals(Integer.parseInt("1111111110", 2), xorValue.findMaximumXOR(new int[]{1,Integer.parseInt("1111111111", 2)}));
         Assert.assertEquals(7, xorValue.findMaximumXOR(new int[]{1,2,3,4,5}));
         Assert.assertEquals(0, xorValue.findMaximumXOR(new int[]{1,1,1,1}));
-        Assert.assertEquals(Integer.parseInt("1111111110", 2), xorValue.findMaximumXOR(new int[]{1,Integer.parseInt("1111111111", 2)}));
     }
 }
