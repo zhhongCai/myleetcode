@@ -6,14 +6,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 784
+ * leetcode 784
  */
-public class StringArr {
+public class LetterCasePermutation {
 
-    public List<String> stringList(String s) {
+    public List<String> letterCasePermutation(String S) {
         List<String> result = new LinkedList<>();
 
-        backtrace(s, new char[s.length()], 0, result);
+        backtrace(S, new char[S.length()], 0, result);
 
         return result;
     }
@@ -37,9 +37,9 @@ public class StringArr {
     }
 
     public static void main(String[] args) {
-        StringArr stringArr = new StringArr();
+        LetterCasePermutation stringArr = new LetterCasePermutation();
         RunUtil.runAndPrintCostTime(() -> {
-            List<String> list = stringArr.stringList("abcdefghijklmn");
+            List<String> list = stringArr.letterCasePermutation("abcdefghijklmn");
         });
 //        list.forEach(System.out::println);
     }

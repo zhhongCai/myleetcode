@@ -152,6 +152,7 @@ public class FindMaximumXOR {
 
     public static void main(String[] args) {
         FindMaximumXOR xorValue = new FindMaximumXOR();
+        Assert.assertEquals(62, xorValue.findMaximumXOR(new int[]{32,18,33,42,29,20,26,36,15,46}));
         Assert.assertEquals(Integer.parseInt("11", 2), xorValue.findMaximumXOR(new int[]{1,Integer.parseInt("10", 2),Integer.parseInt("11", 2)}));
         Assert.assertEquals(Integer.parseInt("111", 2), xorValue.findMaximumXOR(new int[]{
                 Integer.parseInt("1", 2),

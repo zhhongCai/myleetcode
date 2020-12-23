@@ -3,7 +3,7 @@ package com.theonecai.leetcode.bit;
 import org.junit.Assert;
 
 /**
- * 477
+ * leetcode 477
  */
 public class HammingDistance {
 
@@ -12,7 +12,7 @@ public class HammingDistance {
      * @param nums
      * @return
      */
-    public int sumOfHammingDistance(int[] nums) {
+    public int totalHammingDistance(int[] nums) {
         int[] oneBitCount = new int[32];
         for (int num : nums) {
             int shift = 0;
@@ -37,7 +37,7 @@ public class HammingDistance {
 
     public static void main(String[] args) {
         HammingDistance hammingDistance = new HammingDistance();
-        Assert.assertEquals(6, hammingDistance.sumOfHammingDistance(new int[]{4,14,2}));
-        Assert.assertEquals(0, hammingDistance.sumOfHammingDistance(new int[]{4,4,4}));
+        Assert.assertEquals(6, hammingDistance.totalHammingDistance(new int[]{4,14,2}));
+        Assert.assertEquals(0, hammingDistance.totalHammingDistance(new int[]{4,4,4}));
     }
 }
