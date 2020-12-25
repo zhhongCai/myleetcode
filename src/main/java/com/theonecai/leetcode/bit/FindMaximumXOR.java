@@ -16,11 +16,13 @@ public class FindMaximumXOR {
     }
 
     private int maximumXOR() {
+        return maximumXOR(root, root, maxLevel - 1);
+    }
+
+    private int maximumXOR(TreeNode aNode, TreeNode bNode, int level) {
         int a = -1;
         int b = 0;
-        TreeNode aNode = root;
-        TreeNode bNode = root;
-        for (int i =  maxLevel - 1; i >= 0; i--) {
+        for (int i =  level; i >= 0; i--) {
             boolean bZeroBitExists = bNode.next[0] != null;
             boolean bOneBitExists = bNode.next[1] != null;
             boolean aZeroBitExists = aNode.next[0] != null;
@@ -30,18 +32,23 @@ public class FindMaximumXOR {
                 bNode = bZeroBitExists ? bNode.next[0] : bNode.next[1];
                 aNode = aNode.next[1];
             } else {
-               if (aOneBitExists && bZeroBitExists) {
-                   a += 1 << i;
-                   aNode = aNode.next[1];
-                   bNode = bNode.next[0];
-               } else if (aZeroBitExists && bOneBitExists) {
-                   b += 1 << i;
-                   aNode = aNode.next[0];
-                   bNode = bNode.next[1];
-               } else {
-                   aNode = aOneBitExists ? aNode.next[1] : aNode.next[0];
-                   bNode = bOneBitExists ? bNode.next[1] : bNode.next[0];
-               }
+                if (aZeroBitExists && aOneBitExists && bZeroBitExists && bOneBitExists){
+                    a += 1 << i;
+                    int aa = maximumXOR(aNode.next[1], bNode.next[0], i - 1);
+                    int bb = maximumXOR(aNode.next[0], bNode.next[1], i - 1);
+                    return (a ^ b) + Math.max(aa, bb);
+                } else if (aZeroBitExists && bOneBitExists) {
+                    b += 1 << i;
+                    aNode = aNode.next[0];
+                    bNode = bNode.next[1];
+                } else if (aOneBitExists && bZeroBitExists) {
+                    a += 1 << i;
+                    aNode = aNode.next[1];
+                    bNode = bNode.next[0];
+                } else {
+                    aNode = aOneBitExists ? aNode.next[1] : aNode.next[0];
+                    bNode = bOneBitExists ? bNode.next[1] : bNode.next[0];
+                }
             }
         }
         if (a == -1) {
@@ -101,6 +108,8 @@ public class FindMaximumXOR {
 
     private String toBinaryString(int num) {
         return Integer.toBinaryString(num);
+//        System.out.println(b);
+//        return b;
         /*StringBuilder sb = new StringBuilder();
         int bit = 0;
         while (num != 0) {
