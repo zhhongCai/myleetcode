@@ -38,15 +38,13 @@ public class PseudoPalindromicPaths {
     }
 
     private boolean pseudoPalindromic(int[] valCount) {
-        int total = 0;
         int oddCount = 0;
         for (Integer count : valCount) {
-            total += count;
             if ((count & 1) != 0) {
                 oddCount++;
             }
         }
-        return ((total & 1) == 1) && oddCount == 1;
+        return oddCount <= 1;
     }
 
 
