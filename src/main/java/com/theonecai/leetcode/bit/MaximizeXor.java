@@ -1,6 +1,8 @@
 package com.theonecai.leetcode.bit;
 
 
+import org.junit.Assert;
+
 import java.util.Arrays;
 
 /**
@@ -33,18 +35,7 @@ public class MaximizeXor {
         TreeNode node = root;
         int sum = 0;
         int n = 0;
-        int len = Integer.toBinaryString(m).length();
-        int numLen = Integer.toBinaryString(num).length();
-        for (int i = 0; i < maxLevel - len - 1; i++) {
-            if (node.next[0] == null) {
-                return -1;
-            }
-            node = node.next[0];
-        }
-        for (int i = numLen - 1; i > len; i--) {
-            sum |= ((num >> i) & 1) << i;
-        }
-        for (int j = len; j >= 0; j--) {
+        for (int j = maxLevel - 1; j >= 0; j--) {
             int bit = (num >> j) & 1;
             if (bit == 1) {
                 if (node.next[0] == null) {
@@ -123,24 +114,22 @@ public class MaximizeXor {
 
     public static void main(String[] args) {
         MaximizeXor maximizeXor = new MaximizeXor();
-        //[815495216,982236586,841545292,298223816,765573696]
-        System.out.println(Arrays.toString(maximizeXor.maximizeXor(new int[]{33554432,765021065,42883,293499083,1000000000}, new int[][]{
+        Assert.assertEquals(Arrays.toString(maximizeXor.maximizeXor(new int[]{33554432,765021065,42883,293499083,1000000000}, new int[][]{
                 {568658171,1000000000},{17921962,1000000000},{162675788,1000000000},{12122115,534140862},{3731913,847670022},
-        })));
-        System.out.println(Arrays.toString(maximizeXor.maximizeXor(new int[]{0,1,2,3,4,5}, new int[][]{
+        })), Arrays.toString(new int[]{815495216,982236586,841545292,298223816,765573696}));
+        Assert.assertEquals(Arrays.toString(maximizeXor.maximizeXor(new int[]{0,1,2,3,4,5}, new int[][]{
                 {1,3},
                 {3,1},
                 {5,6},
                 {5,0},
-        })));
-        // [1050219420,844498962,540190212,539622516,330170208]
-        System.out.println(Arrays.toString(maximizeXor.maximizeXor(new int[]{536870912,0,534710168,330218644,142254206}, new int[][]{
+        })), Arrays.toString(new int[]{3, 3, 7, 5}));
+        Assert.assertEquals(Arrays.toString(maximizeXor.maximizeXor(new int[]{536870912,0,534710168,330218644,142254206}, new int[][]{
                 {558240772,1000000000},{307628050,1000000000},{3319300,1000000000},{2751604,683297522},{214004,404207941},
-        })));
-        System.out.println(Arrays.toString(maximizeXor.maximizeXor(new int[]{5,2,4,6,6,3}, new int[][]{
+        })), Arrays.toString(new int[]{1050219420,844498962,540190212,539622516,330170208}));
+        Assert.assertEquals(Arrays.toString(maximizeXor.maximizeXor(new int[]{5,2,4,6,6,3}, new int[][]{
                 {12,4},
                 {8,1},
                 {6,3},
-        })));
+        })), Arrays.toString(new int[]{15, -1, 5}));
     }
 }
