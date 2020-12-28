@@ -1,4 +1,4 @@
-package com.theonecai.leetcode;
+package com.theonecai.leetcode.weekend;
 
 import java.util.Arrays;
 import java.util.HashSet;
