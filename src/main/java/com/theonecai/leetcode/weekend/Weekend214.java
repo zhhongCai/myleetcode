@@ -1,6 +1,5 @@
-package com.theonecai.leetcode;
+package com.theonecai.leetcode.weekend;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Assert;
 
 import java.util.Arrays;
@@ -10,7 +9,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * @Author: theonecai

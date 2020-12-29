@@ -1,10 +1,8 @@
-package com.theonecai.leetcode;
+package com.theonecai.leetcode.weekend;
 
 import com.theonecai.leetcode.util.RunUtil;
 import org.junit.Assert;
 
-import java.util.Arrays;
-import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
 

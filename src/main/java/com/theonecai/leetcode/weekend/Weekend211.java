@@ -1,13 +1,8 @@
-package com.theonecai.leetcode;
+package com.theonecai.leetcode.weekend;
 
-import com.theonecai.algorithms.ArrayUtil;
 import org.junit.Assert;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
 
 /**
  * @Author: theonecai
