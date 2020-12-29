@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * leetcode 205
  * @Author: theonecai
  * @Date: Create in 2020/12/27 20:30
  * @Description:
@@ -13,7 +14,9 @@ import java.util.Map;
 public class IsIsomorphic {
 
     public boolean isIsomorphic(String s, String t) {
+        // Map<s.charAt(i), i>
         Map<Character, Integer> map = new HashMap<>();
+        // Map<t.charAt(i), i>
         Map<Character, Integer> indexMap = new HashMap<>();
         char sCh;
         char tCh;

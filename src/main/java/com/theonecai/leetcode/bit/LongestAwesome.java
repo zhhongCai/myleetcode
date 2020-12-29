@@ -5,7 +5,7 @@ import org.junit.Assert;
 import java.util.Arrays;
 
 /**
- * 1542
+ * leetcode 1542
  */
 public class LongestAwesome {
 
@@ -19,11 +19,6 @@ public class LongestAwesome {
         for (int i = 0; i < s.length(); i++) {
             ch = s.charAt(i);
             status ^= 1 << (ch - '0');
-            if (Integer.bitCount(status) <= 1) {
-                result = i + 1;
-                pre[status] = i;
-                continue;
-            }
             if (pre[status] != -2) {
                 result = Math.max(result, i - pre[status]);
             } else {
