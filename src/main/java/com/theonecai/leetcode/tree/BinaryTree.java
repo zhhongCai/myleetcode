@@ -277,10 +277,10 @@ public class BinaryTree {
 
         BinaryTree tree = new BinaryTree();
         List<Integer> list = tree.preorderTraversal(root);
-        list.forEach(e -> System.out.print(e + " "));
+        list.forEach(e -> System.out.print(e + ", "));
         System.out.println();
         list = tree.inorderTraversal(root);
-        list.forEach(e -> System.out.print(e + " "));
+        list.forEach(e -> System.out.print(e + ", "));
         System.out.println();
         list = tree.postorderTraversal(root);
         list.forEach(e -> System.out.print(e + " "));
