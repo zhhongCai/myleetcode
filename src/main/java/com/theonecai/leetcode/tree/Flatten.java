@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 114
+ * leetcode 114
  */
 public class Flatten {
 
@@ -34,8 +34,12 @@ public class Flatten {
             node.right = leftList[0];
 
             TreeNode[] rightList = flattenTree(right);
-            leftList[1].right = rightList[0];
-            tail = rightList[1];
+            if (leftList[1] != null) {
+                leftList[1].right = rightList[0];
+            } else {
+                node.right = rightList[0];
+            }
+            tail = rightList[1] == null ? leftList[1] : rightList[1];
         } else {
             TreeNode[] rightList = flattenTree(right);
             node.right = rightList[0];
@@ -48,13 +52,13 @@ public class Flatten {
     }
 
     public static void main(String[] args) {
+        // [1,2,null,3,4,5]
         Flatten flatten = new Flatten();
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.left.left = new TreeNode(3);
+        root.left.left.left = new TreeNode(5);
         root.left.right = new TreeNode(4);
-        root.right = new TreeNode(5);
-        root.right.right = new TreeNode(6);
         flatten.flatten(root);
         Assert.assertNotNull(root);
 

@@ -8,6 +8,9 @@ import org.junit.Assert;
 public class IsBalanced {
 
     public boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
         int leftCount = countNode(root.left);
         int rightCount = countNode(root.right);
         return Math.abs(leftCount - rightCount) <= 2;

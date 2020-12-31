@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * 99
+ * leetcode 99
  */
 public class RecoverTree {
 
@@ -32,6 +32,7 @@ public class RecoverTree {
                 if (pre.val > node.val) {
                     if (x == null) {
                         x = pre;
+                        y = node;
                     } else {
                         y = node;
                     }
@@ -61,12 +62,12 @@ public class RecoverTree {
             if (nums.get(i).val > nums.get(i + 1).val) {
                 if (x == null) {
                     x = nums.get(i);
+                    y = nums.get(i + 1);
                 } else {
                     y = nums.get(i + 1);
                 }
             }
         }
-
         swap(x, y);
     }
 
@@ -80,7 +81,16 @@ public class RecoverTree {
     }
 
     public static void main(String[] args) {
+        //[3,1,4,null,null,2]
         RecoverTree recoverTree = new RecoverTree();
+        TreeNode node = new TreeNode(3);
+        node.left = new TreeNode(1);
+        node.right = new TreeNode(4);
+        node.right.left = new TreeNode(2);
+        recoverTree.recoverTree(node);
+        Assert.assertNotNull(node);
+
+
         TreeNode root = new TreeNode(7);
 
         root.left = new TreeNode(3);
@@ -91,7 +101,7 @@ public class RecoverTree {
 
         root.right.left = new TreeNode(9);
         root.right.right = new TreeNode(20);
-        recoverTree.recoverTree(root);
+        recoverTree.recoverTree2(root);
         Assert.assertNotNull(root);
     }
 }

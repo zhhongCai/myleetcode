@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * 1046
+ * leetcode 1046
  */
 public class StoneGame {
 

@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 112
+ * leetcode 112
  */
 public class HasPathSum {
     public boolean hasPathSum(TreeNode root, int target) {

@@ -3,11 +3,14 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 106
+ * leetcode 106
  */
 public class BuildTreeByInAndPostorder {
 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder == null || inorder.length < 1) {
+            return null;
+        }
         TreeNode root = new TreeNode(postorder[postorder.length - 1]);
         int idx = 0;
         for (int i = 0; i < inorder.length; i++) {

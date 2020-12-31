@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 116
+ * leetcode 116
  */
 public class Connect {
 

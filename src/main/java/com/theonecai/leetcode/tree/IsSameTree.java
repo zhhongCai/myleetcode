@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 100
+ * leetcode 100
  */
 public class IsSameTree {
 
