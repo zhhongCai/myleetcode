@@ -16,4 +16,15 @@ public class TreeNode {
         this.left = left;
         this.right = right;
     }
+    
+    public static TreeNode buildTree() {
+        TreeNode root = new TreeNode(7);
+        root.left = new TreeNode(3);
+        root.left.left = new TreeNode(2);
+        root.left.right = new TreeNode(5);
+        root.right = new TreeNode(15);
+        root.right.left = new TreeNode(9);
+        root.right.right = new TreeNode(20);
+        return root;
+    }
 }

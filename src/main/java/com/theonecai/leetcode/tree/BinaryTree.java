@@ -166,16 +166,6 @@ public class BinaryTree {
         return list;
     }
 
-
-    static public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
     /**
      * BFS 遍历树
      * @param root
@@ -269,7 +259,7 @@ public class BinaryTree {
     public static void main(String[] args) {
         TreeNode root = new TreeNode(7);
         root.left = new TreeNode(3);
-        root.left.left = new TreeNode(3);
+        root.left.left = new TreeNode(2);
         root.left.right = new TreeNode(5);
         root.right = new TreeNode(15);
         root.right.left = new TreeNode(9);
@@ -283,7 +273,7 @@ public class BinaryTree {
         list.forEach(e -> System.out.print(e + ", "));
         System.out.println();
         list = tree.postorderTraversal(root);
-        list.forEach(e -> System.out.print(e + " "));
+        list.forEach(e -> System.out.print(e + ", "));
         System.out.println();
 
         list = tree.bfsTraversal(root);
