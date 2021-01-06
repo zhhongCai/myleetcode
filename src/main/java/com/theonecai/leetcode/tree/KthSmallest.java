@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 230
+ * leetcode 230
  */
 public class KthSmallest {
 

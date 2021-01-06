@@ -3,31 +3,44 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 110
+ * leetcode 110
  */
 public class IsBalanced {
 
     public boolean isBalanced(TreeNode root) {
         if (root == null) {
-            return false;
+            return true;
         }
-        int leftCount = countLevelNode(root.left, 1);
-        int rightCount = countLevelNode(root.right, 1);
-        return leftCount == rightCount;
+        return countLevelNode(root) >= 0;
     }
 
-    private int countLevelNode(TreeNode node, int level) {
+    private int countLevelNode(TreeNode node) {
         if (node == null) {
-            return level;
+            return 0;
         }
-        int leftHeight = node.left == null ? level : countLevelNode(node.left, level + 1);
-        int rightHeight = node.right == null ? level :  countLevelNode(node.right, level + 1);
-        return Math.max(leftHeight, rightHeight);
+        int leftHeight = countLevelNode(node.left);
+        if (leftHeight == -1) {
+            return -1;
+        }
+        int rightHeight = countLevelNode(node.right);
+        if (rightHeight == -1) {
+            return -1;
+        }
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return -1;
+        } else {
+            return Math.max(leftHeight, rightHeight) + 1;
+        }
     }
 
     public static void main(String[] args) {
         IsBalanced isBalanced = new IsBalanced();
         TreeNode root = new TreeNode(100);
+        root.right = new TreeNode(101);
+        root.right.right = new TreeNode(102);
+        Assert.assertFalse(isBalanced.isBalanced(root));
+
+        root = new TreeNode(100);
         root.left = TreeNode.buildTree();
         Assert.assertFalse(isBalanced.isBalanced(root));
         Assert.assertTrue(isBalanced.isBalanced(TreeNode.buildTree()));
@@ -38,5 +51,8 @@ public class IsBalanced {
         root.left.left = new TreeNode(50);
         root.left.left.left = new TreeNode(40);
         Assert.assertFalse(isBalanced.isBalanced(root));
+
+        root = new TreeNode(1);
+        Assert.assertTrue(isBalanced.isBalanced(root));
     }
 }

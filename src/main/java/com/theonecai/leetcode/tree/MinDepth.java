@@ -3,11 +3,14 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 111
+ * leetcode 111
  */
 public class MinDepth {
 
     public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
 
         return calcHeight(root, 1);
     }
@@ -16,10 +19,20 @@ public class MinDepth {
         if (node == null) {
             return h;
         }
+        if (node.left == null && node.right == null) {
+            return h;
+        }
 
-        int leftHeight = node.left == null ? h : calcHeight(node.left, h + 1);
-        int rightHeight = node.right == null ? h : calcHeight(node.right, h + 1);
-        return Math.min(leftHeight, rightHeight);
+        if (node.left == null) {
+            return calcHeight(node.right, h + 1);
+        } else {
+            int leftHeight = calcHeight(node.left, h + 1);
+            if (node.right == null) {
+                return leftHeight;
+            }
+            int rightHeight = calcHeight(node.right, h + 1);
+            return Math.min(leftHeight, rightHeight);
+        }
     }
 
     public static void main(String[] args) {

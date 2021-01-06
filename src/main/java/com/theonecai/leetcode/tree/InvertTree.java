@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 226
+ * leetcode 226
  */
 public class InvertTree {
     public TreeNode invertTree(TreeNode root) {
