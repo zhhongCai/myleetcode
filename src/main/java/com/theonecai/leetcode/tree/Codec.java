@@ -3,7 +3,9 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * 297
@@ -15,7 +17,7 @@ public class Codec {
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         if (root == null) {
-            return "EMP_TREE";
+            return EMP_TREE;
         }
         List<Integer> list = new ArrayList<>();
 
@@ -25,16 +27,26 @@ public class Codec {
     }
 
     private void dfs(TreeNode node, List<Integer> list) {
-        if (node == null) {
-            list.add(null);
-            return;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(node);
+        while (!queue.isEmpty()) {
+            int i = queue.size();
+            while (i > 0) {
+                TreeNode n = queue.poll();
+                list.add(n == null ? null : n.val);
+                if (n != null) {
+                    if (n.left != null || n.right != null) {
+                        queue.add(n.left);
+                        queue.add(n.right);
+                    }
+                } else {
+                    if (i > 1) {
+
+                    }
+                }
+                i--;
+            }
         }
-        list.add(node.val);
-        if (node.left == null && node.right == null) {
-            return;
-        }
-        dfs(node.left, list);
-        dfs(node.right, list);
     }
 
     // Decodes your encoded data to tree.
@@ -56,7 +68,7 @@ public class Codec {
                 if (!NULL_VAL.equals(dataArr[i].trim())) {
                     TreeNode node = new TreeNode(Integer.parseInt(dataArr[i].trim()));
                     TreeNode p = parent.get(levelCount / 2);
-                    if (p.left == null) {
+                    if (levelCount % 2 == 0) {
                         p.left = node;
                     } else {
                         p.right = node;
