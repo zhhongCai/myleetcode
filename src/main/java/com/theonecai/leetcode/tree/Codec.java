@@ -39,10 +39,6 @@ public class Codec {
                         queue.add(n.left);
                         queue.add(n.right);
                     }
-                } else {
-                    if (i > 1) {
-
-                    }
                 }
                 i--;
             }
