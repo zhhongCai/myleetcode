@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 501
+ * leetcode 501
  */
 public class FindMode {
     public int[] findMode(TreeNode root) {

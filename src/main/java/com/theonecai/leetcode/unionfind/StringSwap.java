@@ -2,8 +2,10 @@ package com.theonecai.leetcode.unionfind;
 
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -11,7 +13,7 @@ import java.util.TreeSet;
 /**
  * 并查集
  *
- * 1202
+ * leetcode 1202
  */
 public class StringSwap {
 
@@ -64,14 +66,14 @@ public class StringSwap {
         }
     }
 
-    public String swapString(String s, int[][] pairs) {
+    public String smallestStringWithSwaps(String s, List<List<Integer>> pairs) {
         if (s == null || s.length() < 2) {
             return s;
         }
         Unionfind unionfind = new Unionfind(s.length(), true);
         char[] chars = s.toCharArray();
-        for (int[] pair : pairs) {
-            unionfind.union(pair[0], pair[1]);
+        for (List<Integer> pair : pairs) {
+            unionfind.union(pair.get(0), pair.get(1));
         }
         Map<Character, Set<Integer>> charIndexMap = new HashMap<>(26);
         for (int i = 0; i < chars.length; i++) {
@@ -119,16 +121,7 @@ public class StringSwap {
 
     public static void main(String[] args) {
         StringSwap stringSwap = new StringSwap();
-        Assert.assertEquals("cba", stringSwap.swapString("cba", new int[][]{
-        }));
-        Assert.assertEquals("abc", stringSwap.swapString("cba", new int[][]{
-                {0,1},{1,2}
-        }));
-        Assert.assertEquals("abcd", stringSwap.swapString("dcab", new int[][]{
-                {0,3},{1,2},{0,2}
-        }));
-        Assert.assertEquals("adbc", stringSwap.swapString("dacb", new int[][]{
-                {0,1},{2,3}
-        }));
+        Assert.assertEquals("cba", stringSwap.smallestStringWithSwaps("cba", new ArrayList<>()));
+        Assert.assertEquals("abc", stringSwap.smallestStringWithSwaps("cba", new ArrayList<>()));
     }
 }

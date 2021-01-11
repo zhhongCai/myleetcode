@@ -1,14 +1,17 @@
 package com.theonecai.leetcode.tree;
 
 /**
- *  450
+ * leetcode 450
  */
 public class DeleteNode {
 
     public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) {
+            return root;
+        }
         TreeNode parent = root;
         TreeNode node = root;
-        while (node.val != key) {
+        while (node != null && node.val != key) {
             parent = node;
             if (key > node.val) {
                 node = node.right;
@@ -16,9 +19,15 @@ public class DeleteNode {
                 node = node.left;
             }
         }
+        if (node == null) {
+            return root;
+        }
 
         // key值所在节点为叶子节点
         if (node.left == null && node.right == null) {
+            if (root == node) {
+                return null;
+            }
             deleteChild(parent, null, node);
             return root;
         }
@@ -74,6 +83,8 @@ public class DeleteNode {
     }
 
     public static void main(String[] args) {
+        //[5,3,6,2,4,null,7]
+        //7
         BSTreeCodec codec = new BSTreeCodec();
         DeleteNode deleteNode = new DeleteNode();
         TreeNode root = new TreeNode(10);
