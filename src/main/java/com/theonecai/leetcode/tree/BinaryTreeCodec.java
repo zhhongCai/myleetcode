@@ -46,23 +46,34 @@ public class BinaryTreeCodec {
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
             int lastHasChildrenIndex = -1;
+            int lastNotNullIndex = -1;
             int i = 0;
             List<TreeNode> levelList = new ArrayList<>(i);
             while (i < levelSize) {
                 TreeNode n = queue.poll();
                 levelList.add(n);
-                if (n != null && (n.left != null || n.right != null)) {
-                    lastHasChildrenIndex = i;
+                if (n != null) {
+                    lastNotNullIndex = i;
+                    if (n.left != null || n.right != null) {
+                        lastHasChildrenIndex = i;
+                    }
                 }
                 i++;
             }
 
-            for (int j = 0; j < levelList.size(); j++) {
+            for (int j = 0; j < levelSize; j++) {
                 TreeNode n = levelList.get(j);
-                list.add(n == null ? null : n.val);
-                if (j <= lastHasChildrenIndex) {
-                    queue.add(n == null ? null : n.left);
-                    queue.add(n == null ? null : n.right);
+                // 最后一层
+                if (lastHasChildrenIndex == -1) {
+                    if (j <= lastNotNullIndex) {
+                        list.add(n == null ? null : n.val);
+                    }
+                } else {
+                    list.add(n == null ? null : n.val);
+                }
+                if (n != null) {
+                    queue.add(n.left);
+                    queue.add(n.right);
                 }
             }
 
@@ -101,10 +112,6 @@ public class BinaryTreeCodec {
                             parent.right = node;
                         }
                     }
-                } else {
-                    if (j < levelSize - 1) {
-                        nextLevel.add(null);
-                    }
                 }
                 j++;
                 i++;
@@ -117,14 +124,21 @@ public class BinaryTreeCodec {
 
     public static void main(String[] args) {
         BinaryTreeCodec binaryTreeCodec = new BinaryTreeCodec();
-        String data = binaryTreeCodec.serialize(TreeNode.buildTree());
+        String data = "[4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2]";
         System.out.println(data);
         TreeNode root = binaryTreeCodec.deserialize(data);
         Assert.assertNotNull(root);
         data = binaryTreeCodec.serialize(root);
         System.out.println(data);
 
-        //[4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2]
+
+        data = binaryTreeCodec.serialize(TreeNode.buildTree());
+        System.out.println(data);
+        root = binaryTreeCodec.deserialize(data);
+        Assert.assertNotNull(root);
+        data = binaryTreeCodec.serialize(root);
+        System.out.println(data);
+
         data = "[1,2,3,null,null,4,5]";
         System.out.println(data);
         root = binaryTreeCodec.deserialize(data);
@@ -185,6 +199,13 @@ public class BinaryTreeCodec {
         root.right.right.right = new TreeNode(13);
         root.right.right.right.right = new TreeNode(14);
         data = binaryTreeCodec.serialize(root);
+        System.out.println(data);
+        root = binaryTreeCodec.deserialize(data);
+        Assert.assertNotNull(root);
+        data = binaryTreeCodec.serialize(root);
+        System.out.println(data);
+
+        data = "[1]";
         System.out.println(data);
         root = binaryTreeCodec.deserialize(data);
         Assert.assertNotNull(root);

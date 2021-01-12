@@ -28,7 +28,7 @@ public class DeleteNode {
             if (root == node) {
                 return null;
             }
-            deleteChild(parent, null, node);
+            deleteChild(parent, parent, node);
             return root;
         }
 
@@ -83,11 +83,15 @@ public class DeleteNode {
     }
 
     public static void main(String[] args) {
-        //[5,3,6,2,4,null,7]
+        //
         //7
         BSTreeCodec codec = new BSTreeCodec();
         DeleteNode deleteNode = new DeleteNode();
-        TreeNode root = new TreeNode(10);
+        TreeNode root = BinaryTreeUtil.deserialize("[5,3,6,2,4,null,7]");
+        root = deleteNode.deleteNode(root, 7);
+        System.out.println(codec.serialize(root));
+
+        root = new TreeNode(10);
         root.left = new TreeNode(5);
         root.left.left = new TreeNode(3);
         root.left.left.right = new TreeNode(4);

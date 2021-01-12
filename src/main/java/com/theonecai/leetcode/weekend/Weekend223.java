@@ -112,9 +112,9 @@ public class Weekend223 {
     public int findParent(int[] parent, int x) {
         int i = x;
         while (parent[i] != i) {
+            parent[i] = parent[parent[i]];
             i = parent[i];
         }
-        parent[x] = i;
         return i;
     }
 

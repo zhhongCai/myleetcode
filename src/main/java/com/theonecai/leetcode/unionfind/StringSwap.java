@@ -1,13 +1,14 @@
 package com.theonecai.leetcode.unionfind;
 
+import com.theonecai.algorithms.RandomStringUtil;
+import com.theonecai.leetcode.util.RunUtil;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -41,9 +42,9 @@ public class StringSwap {
         public int findParent(int x) {
             int i = x;
             while (parent[i] != i) {
+                parent[i] = parent[parent[i]];
                 i = parent[i];
             }
-            parent[x] = i;
             return i;
         }
 
@@ -70,58 +71,80 @@ public class StringSwap {
         if (s == null || s.length() < 2) {
             return s;
         }
-        Unionfind unionfind = new Unionfind(s.length(), true);
-        char[] chars = s.toCharArray();
+
+        int len = s.length();
+        Unionfind unionfind = new Unionfind(len, true);
         for (List<Integer> pair : pairs) {
             unionfind.union(pair.get(0), pair.get(1));
         }
-        Map<Character, Set<Integer>> charIndexMap = new HashMap<>(26);
-        for (int i = 0; i < chars.length; i++) {
-            Set<Integer> indexList = charIndexMap.getOrDefault(chars[i], new TreeSet<>());
-            indexList.add(i);
-            charIndexMap.put(chars[i], indexList);
+
+        char ch;
+        int parent;
+        // 字符出现次数
+        int[] charsCount = new int[26];
+        // Map<字符所在集合, Set<字符>>
+        long dd = 0;
+        Map<Integer, TreeSet<Character>> parentCharsMap = new HashMap<>();
+        for (int i = 0; i < len; i++) {
+            ch = s.charAt(i);
+            charsCount[ch - 'a']++;
+
+            parent = unionfind.findParent(i);
+            TreeSet<Character> charCountMap = parentCharsMap.getOrDefault(parent, new TreeSet<>());
+            charCountMap.add(ch);
+            parentCharsMap.put(parent, charCountMap);
         }
 
-        for (int i = 0; i < chars.length; i++) {
-            boolean swapped = false;
-            for (char ch = 'a'; ch < chars[i]; ch++) {
-                Set<Integer> list = charIndexMap.get(ch);
-                if (list == null || list.size() == 0) {
-                    continue;
-                }
-                Iterator<Integer> it = list.iterator();
-                while (it.hasNext()) {
-                    int idx = it.next();
-                    if (unionfind.isConnected(i, idx)) {
-                        it.remove();
-                        Set<Integer> currentCharIndexList = charIndexMap.get(chars[i]);
-                        currentCharIndexList.remove(i);
-                        currentCharIndexList.add(idx);
-                        swap(chars, i, idx);
-                        swapped = true;
-                        break;
-                    }
-                }
-                if (swapped) {
-                    break;
-                }
-            }
-            if (!swapped) {
-                charIndexMap.get(chars[i]).remove(i);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            parent = unionfind.findParent(i);
+            TreeSet<Character> charSet = parentCharsMap.get(parent);
+            ch = charSet.first();
+            sb.append(ch);
+
+            charsCount[ch - 'a']--;
+            if (charsCount[ch - 'a'] == 0) {
+                charSet.remove(ch);
             }
         }
-        return new String(chars);
-    }
 
-    private void swap(char[] chars, int i, int j) {
-        char ch = chars[i];
-        chars[i] = chars[j];
-        chars[j] = ch;
+        return sb.toString();
     }
 
     public static void main(String[] args) {
         StringSwap stringSwap = new StringSwap();
-        Assert.assertEquals("cba", stringSwap.smallestStringWithSwaps("cba", new ArrayList<>()));
-        Assert.assertEquals("abc", stringSwap.smallestStringWithSwaps("cba", new ArrayList<>()));
+        List<List<Integer>> pairs = new ArrayList<>();
+        pairs.add(Arrays.asList(0, 1));
+        pairs.add(Arrays.asList(0, 2));
+        Assert.assertEquals("abc", stringSwap.smallestStringWithSwaps("cba", pairs));
+
+        pairs.clear();
+        Assert.assertEquals("cba", stringSwap.smallestStringWithSwaps("cba", pairs));
+
+        pairs.add(Arrays.asList(0, 1));
+        pairs.add(Arrays.asList(0, 3));
+        pairs.add(Arrays.asList(1, 2));
+        Assert.assertEquals("abcd", stringSwap.smallestStringWithSwaps("dcba", pairs));
+
+        int len = 100000;
+        String s = RandomStringUtil.randomString(len);
+        pairs.clear();
+        int[] counts = new int[26];
+        for (int i = 0; i < len; i++) {
+            counts[s.charAt(i) - 'a']++;
+            if (i != 0) {
+                pairs.add(Arrays.asList(i, i - 1));
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < counts.length; i++) {
+            while (counts[i] > 0) {
+                sb.append((char) (i + 'a'));
+                counts[i]--;
+            }
+        }
+        RunUtil.runAndPrintCostTime(() -> {
+            Assert.assertEquals(sb.toString(), stringSwap.smallestStringWithSwaps(s, pairs));
+        });
     }
 }

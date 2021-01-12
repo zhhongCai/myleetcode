@@ -27,9 +27,9 @@ public class Unionfind {
     public int findParent(int x) {
         int i = x;
         while (parent[i] != i) {
+            parent[i] = parent[parent[i]];
             i = parent[i];
         }
-        parent[x] = i;
         return i;
     }
 
