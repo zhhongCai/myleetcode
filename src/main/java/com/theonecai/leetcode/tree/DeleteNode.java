@@ -1,7 +1,7 @@
 package com.theonecai.leetcode.tree;
 
 /**
- * leetcode 450
+ *  450
  */
 public class DeleteNode {
 
@@ -83,7 +83,7 @@ public class DeleteNode {
     }
 
     public static void main(String[] args) {
-        //
+        //[4,null,7,6,8,5,null,null,9]
         //7
         BSTreeCodec codec = new BSTreeCodec();
         DeleteNode deleteNode = new DeleteNode();

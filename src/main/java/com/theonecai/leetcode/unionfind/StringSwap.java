@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 /**
  * 并查集
@@ -83,28 +83,29 @@ public class StringSwap {
         // 字符出现次数
         int[] charsCount = new int[26];
         // Map<字符所在集合, Set<字符>>
-        long dd = 0;
-        Map<Integer, TreeSet<Character>> parentCharsMap = new HashMap<>();
+        Map<Integer, TreeMap<Character, Integer>> parentCharsCountMap = new HashMap<>();
         for (int i = 0; i < len; i++) {
             ch = s.charAt(i);
             charsCount[ch - 'a']++;
 
             parent = unionfind.findParent(i);
-            TreeSet<Character> charCountMap = parentCharsMap.getOrDefault(parent, new TreeSet<>());
-            charCountMap.add(ch);
-            parentCharsMap.put(parent, charCountMap);
+            TreeMap<Character, Integer> charCountMap = parentCharsCountMap.getOrDefault(parent, new TreeMap<>());
+            charCountMap.put(ch, charCountMap.getOrDefault(ch, 0) + 1);
+            parentCharsCountMap.put(parent, charCountMap);
         }
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < len; i++) {
             parent = unionfind.findParent(i);
-            TreeSet<Character> charSet = parentCharsMap.get(parent);
-            ch = charSet.first();
+            TreeMap<Character, Integer> charCountMap = parentCharsCountMap.get(parent);
+            ch = charCountMap.firstKey();
             sb.append(ch);
 
-            charsCount[ch - 'a']--;
-            if (charsCount[ch - 'a'] == 0) {
-                charSet.remove(ch);
+            int c = charCountMap.get(ch);
+            if (c == 1) {
+                charCountMap.remove(ch);
+            } else {
+                charCountMap.put(ch, c - 1);
             }
         }
 
@@ -113,7 +114,20 @@ public class StringSwap {
 
     public static void main(String[] args) {
         StringSwap stringSwap = new StringSwap();
+        //""
+        //[[2,4],[5,7],[1,0],[0,0],[4,7],[0,3],[4,1],[1,3]]
         List<List<Integer>> pairs = new ArrayList<>();
+        pairs.add(Arrays.asList(2, 4));
+        pairs.add(Arrays.asList(5, 7));
+        pairs.add(Arrays.asList(1, 0));
+        pairs.add(Arrays.asList(0, 0));
+        pairs.add(Arrays.asList(4, 7));
+        pairs.add(Arrays.asList(0, 3));
+        pairs.add(Arrays.asList(4, 1));
+        pairs.add(Arrays.asList(1, 3));
+        Assert.assertEquals("ffkqttkv", stringSwap.smallestStringWithSwaps("fqtvkfkt", pairs));
+
+        pairs = new ArrayList<>();
         pairs.add(Arrays.asList(0, 1));
         pairs.add(Arrays.asList(0, 2));
         Assert.assertEquals("abc", stringSwap.smallestStringWithSwaps("cba", pairs));
@@ -143,8 +157,9 @@ public class StringSwap {
                 counts[i]--;
             }
         }
+        List<List<Integer>> p = pairs;
         RunUtil.runAndPrintCostTime(() -> {
-            Assert.assertEquals(sb.toString(), stringSwap.smallestStringWithSwaps(s, pairs));
+            Assert.assertEquals(sb.toString(), stringSwap.smallestStringWithSwaps(s, p));
         });
     }
 }
