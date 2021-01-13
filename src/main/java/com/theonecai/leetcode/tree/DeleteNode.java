@@ -1,7 +1,7 @@
 package com.theonecai.leetcode.tree;
 
 /**
- *  450
+ * leetcode 450
  */
 public class DeleteNode {
 
@@ -28,22 +28,22 @@ public class DeleteNode {
             if (root == node) {
                 return null;
             }
-            deleteChild(parent, parent, node);
+            deleteChild(parent, node);
             return root;
         }
 
         // 左子树的最大值节点替换要删除节点并删除该最大值节点
-        if (replaceNode(parent, node, true)) {
+        if (replaceNode(node, true)) {
             return root;
         }
 
         // 右子树的最小值节点替换要删除节点并删除该最小值节点
-        replaceNode(parent, node, false);
+        replaceNode(node, false);
 
         return root;
     }
 
-    private boolean replaceNode(TreeNode parent, TreeNode node, boolean maxValue) {
+    private boolean replaceNode(TreeNode node, boolean maxValue) {
         TreeNode replaceNode = maxValue ? node.left : node.right;
         TreeNode p = node;
         while (replaceNode != null) {
@@ -54,7 +54,7 @@ public class DeleteNode {
             replaceNode = maxValue ? replaceNode.right : replaceNode.left;
         }
         if (replaceNode != null) {
-            deleteChild(parent, p, replaceNode);
+            deleteChild(p, replaceNode);
             node.val = replaceNode.val;
             return true;
         }
@@ -66,7 +66,7 @@ public class DeleteNode {
      * @param parent
      * @param node
      */
-    private void deleteChild(TreeNode pparent, TreeNode parent, TreeNode node) {
+    private void deleteChild(TreeNode parent, TreeNode node) {
         if (node.left == null && node.right == null) {
             if (parent.val > node.val) {
                 parent.left = null;
@@ -74,20 +74,22 @@ public class DeleteNode {
                 parent.right = null;
             }
         } else {
-            if (pparent.val > node.val) {
-                pparent.left = node.left;
+            if (parent.val > node.val) {
+                parent.left = node.left;
             } else {
-                pparent.right = node.right;
+                parent.right = node.right;
             }
         }
     }
 
     public static void main(String[] args) {
-        //[4,null,7,6,8,5,null,null,9]
-        //7
         BSTreeCodec codec = new BSTreeCodec();
         DeleteNode deleteNode = new DeleteNode();
         TreeNode root = BinaryTreeUtil.deserialize("[5,3,6,2,4,null,7]");
+        root = deleteNode.deleteNode(root, 7);
+        System.out.println(codec.serialize(root));
+
+        root = BinaryTreeUtil.deserialize("[4,null,7,6,8,5,null,null,9]");
         root = deleteNode.deleteNode(root, 7);
         System.out.println(codec.serialize(root));
 
