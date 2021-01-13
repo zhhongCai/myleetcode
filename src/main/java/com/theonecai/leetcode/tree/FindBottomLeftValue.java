@@ -2,7 +2,9 @@ package com.theonecai.leetcode.tree;
 
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Queue;
  */
 public class FindBottomLeftValue {
 
-    public int findBottomLeftValue(TreeNode root) {
+    public int findBottomLeftValue2(TreeNode root) {
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
         int result = 0;
@@ -36,6 +38,24 @@ public class FindBottomLeftValue {
         }
 
         return result;
+    }
+
+    public int findBottomLeftValue(TreeNode root) {
+        List<Integer> depthFirstList = new ArrayList<>();
+
+        dfs(root, 1, depthFirstList);
+
+        return depthFirstList.get(depthFirstList.size() - 1);
+    }
+    public void dfs(TreeNode node, int depth, List<Integer> depthFirstList) {
+        if (node == null) {
+            return;
+        }
+        if (depthFirstList.size() < depth) {
+            depthFirstList.add(node.val);
+        }
+        dfs(node.left, depth + 1, depthFirstList);
+        dfs(node.right, depth + 1, depthFirstList);
     }
 
     public static void main(String[] args) {
