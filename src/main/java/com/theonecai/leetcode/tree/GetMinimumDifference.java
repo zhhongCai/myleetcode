@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 530
+ *  530
  */
 public class GetMinimumDifference {
 
@@ -15,6 +15,7 @@ public class GetMinimumDifference {
 
         if (root.left != null) {
             minAbsValue = Math.min(minAbsValue, Math.abs(root.val - root.left.val));
+            TreeNode node = root.left.right;
         }
         if (root.right != null) {
             minAbsValue = Math.min(minAbsValue, Math.abs(root.val - root.right.val));
@@ -26,8 +27,12 @@ public class GetMinimumDifference {
     }
 
     public static void main(String[] args) {
+
         GetMinimumDifference getMinimumDifference = new GetMinimumDifference();
-        TreeNode root = BinaryTreeUtil.deserialize("[2,1,3]");
+        TreeNode root = BinaryTreeUtil.deserialize("[236,104,701,null,227,null,911]");
+        Assert.assertEquals(9, getMinimumDifference.getMinimumDifference(root));
+
+        root = BinaryTreeUtil.deserialize("[2,1,3]");
         Assert.assertEquals(1, getMinimumDifference.getMinimumDifference(root));
 
         root = BinaryTreeUtil.deserialize("[10,5,15,3,6,12,20]");

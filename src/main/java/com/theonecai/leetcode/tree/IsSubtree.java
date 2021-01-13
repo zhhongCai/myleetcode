@@ -12,7 +12,7 @@ public class IsSubtree {
     }
 
     private boolean dfs(TreeNode s, TreeNode t, boolean parenEq) {
-        System.out.println((s == null ? "null" : s.val) + "," + (t == null ? "null" : t.val) + "," + parenEq);
+//        System.out.println((s == null ? "null" : s.val) + "," + (t == null ? "null" : t.val) + "," + parenEq);
         if (parenEq) {
             if (s == null && t == null) {
                 return true;
@@ -41,6 +41,9 @@ public class IsSubtree {
 
     public static void main(String[] args) {
         IsSubtree isSubtree = new IsSubtree();
+        Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1,1]"),
+                BinaryTreeUtil.deserialize("[1]")));
+
         Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[]"),
                 BinaryTreeUtil.deserialize("[]")));
 
