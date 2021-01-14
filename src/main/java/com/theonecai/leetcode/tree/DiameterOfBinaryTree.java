@@ -7,12 +7,18 @@ import org.junit.Assert;
  */
 public class DiameterOfBinaryTree {
 
+    private int result;
+
     public int diameterOfBinaryTree(TreeNode root) {
         if (root == null) {
             return 0;
         }
 
-        return dfs(root.left, 0) + dfs(root.right, 0);
+        this.result = 0;
+
+        dfs(root, 0);
+
+        return this.result;
     }
 
     private int dfs(TreeNode node, int depth) {
@@ -20,7 +26,18 @@ public class DiameterOfBinaryTree {
             return depth;
         }
 
-        return Math.max(dfs(node.left, depth + 1), dfs(node.right, depth + 1));
+        int left = 0;
+        int right = 0;
+        if (node.left != null) {
+            left = dfs(node.left, depth + 1);
+        }
+        if (node.right != null) {
+            right = dfs(node.right, depth + 1);
+        }
+
+        this.result = Math.max(result, left + right);
+
+        return Math.max(left, right) + 1;
     }
 
     public static void main(String[] args) {

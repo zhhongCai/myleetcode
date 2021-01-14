@@ -8,35 +8,33 @@ import org.junit.Assert;
 public class IsSubtree {
 
     public boolean isSubtree(TreeNode s, TreeNode t) {
+        if (s == null && t == null) {
+            return true;
+        }
+        if (s == null || t == null) {
+            return true;
+        }
         return dfs(s, t, false) || dfs(t, s, false);
     }
 
-    private boolean dfs(TreeNode s, TreeNode t, boolean parenEq) {
-//        System.out.println((s == null ? "null" : s.val) + "," + (t == null ? "null" : t.val) + "," + parenEq);
-        if (parenEq) {
-            if (s == null && t == null) {
-                return true;
-            }
-            if (s == null || t == null) {
-                return false;
-            }
-            if (s.val != t.val) {
-                return false;
-            }
-            return dfs(s.left, t.left, true) && dfs(s.right, t.right, true);
-        } else {
-            if (s == null && t == null) {
-                return true;
-            }
-            if (s == null || t == null) {
-                return false;
-            }
-            if (s.val != t.val) {
-                return dfs(s.left, t, false) || dfs(s.right, t, false);
-            } else {
-                return dfs(s.left, t.left, true) && dfs(s.right, t.right, true);
-            }
+    private boolean dfs(TreeNode s, TreeNode t, boolean parentEq) {
+        if (s == null && t == null) {
+            return true;
         }
+        if (s == null || t == null) {
+            return false;
+        }
+
+        if (s.val != t.val) {
+            return !parentEq && (dfs(s.left, t, false) || dfs(s.right, t, false));
+        }
+
+        boolean result = dfs(s.left, t.left, true) && dfs(s.right, t.right, true);
+        if (result) {
+            return true;
+        }
+
+        return dfs(s.left, t, false) || dfs(s.right, t, false);
     }
 
     public static void main(String[] args) {
@@ -49,6 +47,9 @@ public class IsSubtree {
 
         Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1]"),
                 BinaryTreeUtil.deserialize("[1]")));
+
+        Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1]"),
+                BinaryTreeUtil.deserialize("[]")));
 
         Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1,2,3]"),
                 BinaryTreeUtil.deserialize("[1,2,3]")));

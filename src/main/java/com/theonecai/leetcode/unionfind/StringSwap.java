@@ -80,13 +80,10 @@ public class StringSwap {
 
         char ch;
         int parent;
-        // 字符出现次数
-        int[] charsCount = new int[26];
         // Map<字符所在集合, Set<字符>>
         Map<Integer, TreeMap<Character, Integer>> parentCharsCountMap = new HashMap<>();
         for (int i = 0; i < len; i++) {
             ch = s.charAt(i);
-            charsCount[ch - 'a']++;
 
             parent = unionfind.findParent(i);
             TreeMap<Character, Integer> charCountMap = parentCharsCountMap.getOrDefault(parent, new TreeMap<>());
