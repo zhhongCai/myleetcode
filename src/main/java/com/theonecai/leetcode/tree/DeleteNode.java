@@ -27,72 +27,87 @@ public class DeleteNode {
 
         // key值所在节点为叶子节点
         if (node.left == null && node.right == null) {
-            if (root == node) {
+            if (parent == node) {
                 return null;
             }
-            deleteChild(parent, node);
-            return root;
-        }
-
-        // 左子树的最大值节点替换要删除节点并删除该最大值节点
-        if (replaceNode(node, true)) {
-            return root;
-        }
-
-        // 右子树的最小值节点替换要删除节点并删除该最小值节点
-        replaceNode(node, false);
-
-        return root;
-    }
-
-    private boolean replaceNode(TreeNode node, boolean maxValue) {
-        TreeNode replaceNode = maxValue ? node.left : node.right;
-        TreeNode p = node;
-        while (replaceNode != null) {
-            if ((maxValue && replaceNode.right == null) || (!maxValue && replaceNode.left == null)) {
-                break;
-            }
-            p = replaceNode;
-            replaceNode = maxValue ? replaceNode.right : replaceNode.left;
-        }
-        if (replaceNode != null) {
-            deleteChild(p, replaceNode);
-            node.val = replaceNode.val;
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * 删除节点node
-     * @param parent
-     * @param node
-     */
-    private void deleteChild(TreeNode parent, TreeNode node) {
-        if (node.left == null && node.right == null) {
             if (parent.val > node.val) {
                 parent.left = null;
             } else {
                 parent.right = null;
             }
-        } else {
-            if (parent.val > node.val) {
-                parent.left = node.left;
-            } else {
-                parent.right = node.right;
-            }
+            return root;
         }
+
+        // 取左子树的最大值替换待删除节点的值，并删除该替换值节点
+        if (node.left != null) {
+            TreeNode replaceNode = node.left;
+            TreeNode p = node;
+            while (replaceNode.right != null) {
+                p = replaceNode;
+                replaceNode = replaceNode.right;
+            }
+            node.val = deleteReplaceNode(replaceNode, p);
+
+            return root;
+        }
+
+        // 取右子树的最小值替换待删除节点的值，并删除该替换值节点
+        TreeNode replaceNode = node.right;
+        TreeNode p = node;
+        while (replaceNode.left != null) {
+            p = replaceNode;
+            replaceNode = replaceNode.left;
+        }
+        node.val = deleteReplaceNode(replaceNode, p);
+
+        return root;
+    }
+
+    private int deleteReplaceNode(TreeNode replaceNode, TreeNode replaceNodeParent) {
+        int val = replaceNode.val;
+        TreeNode subRoot = deleteNode(replaceNode, replaceNode.val);
+        if (subRoot == null) {
+            if (replaceNodeParent.val > replaceNode.val) {
+                replaceNodeParent.left = null;
+            } else {
+                replaceNodeParent.right = null;
+            }
+            return val;
+        }
+        if (replaceNodeParent.val > subRoot.val) {
+            replaceNodeParent.left = subRoot;
+        } else {
+            replaceNodeParent.right = subRoot;
+        }
+        return val;
     }
 
     public static void main(String[] args) {
+        /*
+                   8
+                  0                                     31
+                   6                                  28                   45
+                 1    7                              25  30                32         49
+                  4                                      9
+                 2  5
+                  3
+         */
 
         DeleteNode deleteNode = new DeleteNode();
+
         TreeNode root = BinaryTreeUtil.deserialize("[8,0,31,null,6,28,45,1,7,25,30,32,49,null,4,null,null,9,26,29," +
                 "null,null,42,47,null,2,5,null,12,null,27,null,null,41,43,46,48,null,3,null,null,10,19,null,null,33,null," +
                 "null,44,null,null,null,null,null,null,null,11,18,20,null,37,null,null,null,null,14,null,null,22,36,38,13," +
                 "15,21,24,34,null,null,39,null,null,null,16,null,null,23,null,null,35,null,40,null,17]");
         System.out.println(BinaryTreeUtil.serialize(root));
         root = deleteNode.deleteNode(root, 1);
+        Assert.assertEquals("[8,0,31,null,6,28,45,2,7,25,30,32,49,null,4,null,null,9,26,29,null,null,42,47," +
+                "null,3,5,null,12,null,27,null,null,41,43,46,48,null,null,null,null,10,19,null,null,33,null,null,44," +
+                "null,null,null,null,null,11,18,20,null,37,null,null,null,null,14,null,null,22,36,38,13,15,21,24,34," +
+                "null,null,39,null,null,null,16,null,null,23,null,null,35,null,40,null,17]", BinaryTreeUtil.serialize(root));
+
+        root = BinaryTreeUtil.deserialize("[5,3,6,2,4,null,7]");
+        root = deleteNode.deleteNode(root, 3);
         System.out.println(BinaryTreeUtil.serialize(root));
 
         root = BinaryTreeUtil.deserialize("[20,10,40,5,15,null,null,4,6,14]");
@@ -132,6 +147,12 @@ public class DeleteNode {
         root = BinaryTreeUtil.deserialize(data);
         System.out.println(BinaryTreeUtil.serialize(root));
         root = deleteNode.deleteNode(root, 3);
+        System.out.println(BinaryTreeUtil.serialize(root));
+
+        data = "[5]";
+        root = BinaryTreeUtil.deserialize(data);
+        System.out.println(BinaryTreeUtil.serialize(root));
+        root = deleteNode.deleteNode(root, 5);
         System.out.println(BinaryTreeUtil.serialize(root));
 
     }
