@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- *  530
+ * leetcode 530
  */
 public class GetMinimumDifference {
 

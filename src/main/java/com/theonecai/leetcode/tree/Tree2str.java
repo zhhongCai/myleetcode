@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- *  606
+ *  leetcode 606
  */
 public class Tree2str {
 

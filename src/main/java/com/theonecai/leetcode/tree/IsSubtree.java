@@ -14,7 +14,7 @@ public class IsSubtree {
         if (s == null || t == null) {
             return true;
         }
-        return dfs(s, t, false) || dfs(t, s, false);
+        return dfs(s, t, false);
     }
 
     private boolean dfs(TreeNode s, TreeNode t, boolean parentEq) {
@@ -39,6 +39,12 @@ public class IsSubtree {
 
     public static void main(String[] args) {
         IsSubtree isSubtree = new IsSubtree();
+        Assert.assertFalse(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[4,1,null,1,null,6,7]"),
+                BinaryTreeUtil.deserialize("[4,1,null,6,7]")));
+
+        Assert.assertFalse(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[4,null,2]"),
+                BinaryTreeUtil.deserialize("[3,4,5,null,2,null,2]")));
+
         Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1,1]"),
                 BinaryTreeUtil.deserialize("[1]")));
 

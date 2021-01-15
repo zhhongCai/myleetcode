@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 543
+ * leetcode 543
  */
 public class DiameterOfBinaryTree {
 
