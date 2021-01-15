@@ -3,42 +3,38 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 572
+ * leetcode 572
  */
 public class IsSubtree {
 
     public boolean isSubtree(TreeNode s, TreeNode t) {
-        if (s == null && t == null) {
-            return true;
-        }
-        if (s == null || t == null) {
-            return true;
-        }
-        return dfs(s, t, false);
-    }
-
-    private boolean dfs(TreeNode s, TreeNode t, boolean parentEq) {
-        if (s == null && t == null) {
-            return true;
-        }
-        if (s == null || t == null) {
+        if (s == null) {
             return false;
         }
-
-        if (s.val != t.val) {
-            return !parentEq && (dfs(s.left, t, false) || dfs(s.right, t, false));
-        }
-
-        boolean result = dfs(s.left, t.left, true) && dfs(s.right, t.right, true);
-        if (result) {
+        if (t == null) {
             return true;
         }
+        return isSubtree(s.left, t) || isSubtree(s.right, t) || isSameTree(s, t);
+    }
 
-        return dfs(s.left, t, false) || dfs(s.right, t, false);
+    private boolean isSameTree(TreeNode s, TreeNode t) {
+        if (s == null && t == null) {
+            return true;
+        }
+        if (t == null || s == null) {
+            return false;
+        }
+        if (s.val != t.val) {
+            return false;
+        }
+        return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);
     }
 
     public static void main(String[] args) {
         IsSubtree isSubtree = new IsSubtree();
+        Assert.assertTrue(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,null,1,2]"),
+                BinaryTreeUtil.deserialize("[1,null,1,null,1,null,1,null,1,null,1,2]")));
+
         Assert.assertFalse(isSubtree.isSubtree(BinaryTreeUtil.deserialize("[4,1,null,1,null,6,7]"),
                 BinaryTreeUtil.deserialize("[4,1,null,6,7]")));
 
