@@ -1,9 +1,12 @@
 package com.theonecai.leetcode.unionfind;
 
+import com.theonecai.leetcode.util.RunUtil;
+import org.junit.Assert;
+
 import java.util.Arrays;
 
 /**
- * 803
+ * leetcode 803
  */
 public class HitBricks {
 
@@ -19,10 +22,10 @@ public class HitBricks {
     private int size;
 
     public int[] hitBricks(int[][] grid, int[][] hits) {
-        int[] result = new int[hits.length];
         this.rows = grid.length;
         this.cols = grid[0].length;
         this.size = rows * cols;
+
         parent = new int[size + 1];
         count = new int[size + 1];
         int[][] matrix = new int[rows][cols];
@@ -36,20 +39,19 @@ public class HitBricks {
         for (int[] hit : hits) {
             matrix[hit[0]][hit[1]] = 0;
         }
-        Arrays.fill(count, 1);
-        this.count[size] = 0;
 
         parent[size] = size;
+        count[size] = 1;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 index = getIndex(i, j);
                 parent[index] = index;
-                if (matrix[i][j] == 0) {
-                    continue;
-                }
-                if (i == 0) {
-                    union(parent, index, size);
-                } else {
+                count[index] = 1;
+
+                if (matrix[i][j] == 1) {
+                    if (i == 0) {
+                        union(parent, index, size);
+                    }
                     // 左上
                     for (int k = 0; k < 2; k++) {
                         int[] direction = directions[k];
@@ -60,10 +62,12 @@ public class HitBricks {
                         }
                     }
                 }
-
             }
         }
 
+//        printArray(matrix);
+
+        int[] result = new int[hits.length];
         for (int i = hits.length - 1; i >= 0; i--) {
             result[i] = unHit(grid, matrix, hits[i]);
         }
@@ -71,16 +75,25 @@ public class HitBricks {
         return result;
     }
 
+    private void printArray(int[][] matrix) {
+        for (int[] ints : matrix) {
+            System.out.println(Arrays.toString(ints));
+        }
+        System.out.println();
+    }
+
     private int unHit(int[][] grid, int[][] matrix, int[] hit) {
         if (grid[hit[0]][hit[1]] == 0) {
             return 0;
         }
+
+        int count = 0;
+        int original = getSize(size);
+
         if (hit[0] == 0) {
             union(parent, hit[1], size);
         }
 
-        int count = 0;
-        int original = getSize(size);
         int index = getIndex(hit[0], hit[1]);
         for (int[] direction : directions) {
             int row = hit[0] + direction[0];
@@ -131,52 +144,52 @@ public class HitBricks {
 
     public static void main(String[] args) {
         HitBricks hitBricks = new HitBricks();
-        //[[1,1,0,1,0},{1,1,0,1,1},{0,0,0,1,1},{0,0,0,1,0},{0,0,0,0,0},{0,0,0,0,0]]
-        //[[5,1},{1,3]]
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
-                {1,0,1},
-                {1,1,1}
-        }, new int[][] {
-                {0,0},{0,2},{1,1}
+        Assert.assertEquals("[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1]",
+                Arrays.toString(hitBricks.hitBricks(new int[][]{
+                {0,1,1,1,1,1},
+                {1,1,1,1,1,1},
+                {0,0,1,0,0,0},
+                {0,0,0,0,0,0},
+                {0,0,0,0,0,0},
+        }, new int[][]{
+                {1,3},{3,5},{0,3},{3,3},{1,1},{4,2},{1,0},{3,0},{4,5},{2,1},
+                        {4,4},{4,0},{2,4},{2,5},{3,4},{0,5},{0,4},{3,2},{1,5},{4,1},{2,2},{0,2}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
-                {1,1,0,1,0},
-                {1,1,0,1,1},
-                {0,0,0,1,1},
-                {0,0,0,1,0},
-                {0,0,0,0,0},
-                {0,0,0,0,0},
-        }, new int[][] {
-                {5,1},{1,3}
+        Assert.assertEquals("[0, 4]", Arrays.toString(hitBricks.hitBricks(new int[][]{
+                {1, 1, 0, 1, 0},
+                {1, 1, 0, 1, 1},
+                {0, 0, 0, 1, 1},
+                {0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0},
+        }, new int[][]{
+                {5, 1}, {1, 3}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
-                {1},
-                {1},
-                {1},
-                {1},
-                {1},
-        }, new int[][] {
-                {3,0},{4,0},{1,0},{2,0},{0,0}
-        })));
-
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[0, 0, 0, 0, 0, 0]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {1,1,1},
                 {1,1,1}
         }, new int[][] {
                 {1,2},{1,1},{1,0},{0,0},{0,1},{0,2}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[0, 3, 0]", Arrays.toString(hitBricks.hitBricks(new int[][]{
+                {1,0,1},
+                {1,1,1}
+        }, new int[][] {
+                {0,0},{0,2},{1,1}
+        })));
+
+        Assert.assertEquals("[2]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {1,0,0,0},
                 {1,1,1,0}
         }, new int[][] {
                 {1,0}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[14]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {1,0,0,0,0,0},
                 {1,0,1,1,1,1},
                 {1,0,1,0,0,1},
@@ -185,7 +198,7 @@ public class HitBricks {
                 {0,0}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[0, 0]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {1,0,0,0},
                 {1,1,0,0}
         }, new int[][] {
@@ -194,7 +207,7 @@ public class HitBricks {
         })));
 
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[10]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {1,0,0,0,0,1},
                 {0,1,1,1,0,1},
                 {0,1,1,1,0,1},
@@ -203,7 +216,7 @@ public class HitBricks {
                 {3,5}
         })));
 
-        System.out.println(Arrays.toString(hitBricks.hitBricks(new int[][]{
+        Assert.assertEquals("[13]", Arrays.toString(hitBricks.hitBricks(new int[][]{
                 {0,0,0,0,0,1},
                 {1,1,1,1,0,1},
                 {1,1,1,1,0,1},
@@ -211,5 +224,25 @@ public class HitBricks {
         }, new int[][] {
                 {3,5}
         })));
+
+        int[][] grid = new int[100000][1];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (i == 0) {
+                    if (j == 0) {
+                        grid[i][j] = 1;
+                    }
+                } else {
+                    grid[i][j] = 1;
+                }
+            }
+        }
+
+        int result = (grid.length - 1) * grid[0].length;
+        RunUtil.runAndPrintCostTime(() -> {
+            Assert.assertEquals("[" +result+"]", Arrays.toString(hitBricks.hitBricks(grid, new int[][] {
+                    {0,0}
+            })));
+        });
     }
 }
