@@ -1,4 +1,4 @@
-package com.theonecai.leetcode.dp;
+package com.theonecai.geekforgeek.dp;
 
 import org.junit.Assert;
 
@@ -71,11 +71,54 @@ public class LongestIncreasingSubSequence {
         return max;
     }
 
+    /**
+     * 堆扑克牌(每堆数值递减, 取数值最接近的那堆放)
+     * 假设10, 22, 9, 33, 21, 50, 41, 60, 80:
+     * 10 9
+     * 22 21
+     * 33
+     * 50 41
+     * 60
+     * 80
+     *
+     * @param nums
+     * @return
+     */
+    public int longestIncreasingSubSequencePiles(int[] nums) {
+        // top[i]第i堆扑克牌最上面的那张的数值,top天然有序(从小到大)
+        int[] top = new int[nums.length];
+        // 牌堆数
+        int piles = 0;
+        for (int num : nums) {
+            int low = 0;
+            int high = piles;
+            int mid = 0;
+            while (low < high) {
+                mid = (low + high) / 2;
+                if (top[mid] > num) {
+                    high = mid;
+                } else if (top[mid] < num) {
+                    low = mid + 1;
+                } else {
+                    high = mid;
+                }
+            }
+            if (low == piles) {
+                piles++;
+            }
+            top[low] = num;
+        }
+
+        return piles;
+    }
+
     public static void main(String[] args) {
         LongestIncreasingSubSequence increasingSubSequence = new LongestIncreasingSubSequence();
         Assert.assertEquals(6, increasingSubSequence.longestIncreasingSubSequenceRecursive(
                 new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80}));
         Assert.assertEquals(6, increasingSubSequence.longestIncreasingSubSequenceDp(
+                new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80}));
+        Assert.assertEquals(6, increasingSubSequence.longestIncreasingSubSequencePiles(
                 new int[]{10, 22, 9, 33, 21, 50, 41, 60, 80}));
     }
 }

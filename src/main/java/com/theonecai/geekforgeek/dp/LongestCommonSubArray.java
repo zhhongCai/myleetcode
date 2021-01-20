@@ -1,4 +1,4 @@
-package com.theonecai.leetcode.dp;
+package com.theonecai.geekforgeek.dp;
 
 import org.junit.Assert;
 

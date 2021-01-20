@@ -1,6 +1,4 @@
-package com.theonecai.leetcode.dp;
-
-import org.junit.Assert;
+package com.theonecai.geekforgeek.dp;
 
 /**
  * Fibonacci:
