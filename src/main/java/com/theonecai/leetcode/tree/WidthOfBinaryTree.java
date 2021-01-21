@@ -44,7 +44,7 @@ public class WidthOfBinaryTree {
                 j++;
             }
             if (i != -1) {
-                width = Math.max(width, i + 1);
+                width = Math.max(width, (i - ii) + 1);
             }
             if (allNull) {
                 break;
@@ -64,10 +64,10 @@ public class WidthOfBinaryTree {
          * 2,2,2,2,2,2,2,null,2,null,null,2,null,2
          *
          */
+        Assert.assertEquals(3,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,2,3,null,5,null,7,8]")));
         Assert.assertEquals(8,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,1,1,1,1,1,1,null,null,null,1,null,null,null,null,2,2,2,2,2,2,2,null,2,null,null,2,null,2]")));
         Assert.assertEquals(8,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,1,1,1,null,null,1,1,null,null,1]")));
         Assert.assertEquals(2,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,2,3,4]")));
         Assert.assertEquals(4,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,2,3,4,5,6,7,8]")));
-        Assert.assertEquals(4,  treeWidth.widthOfBinaryTree(BinaryTreeUtil.deserialize("[1,2,3,null,5,null,7,8]")));
     }
 }
