@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 655
+ * leetcode 655
  */
-public class TreePrint {
+public class PrintTree {
 
     private static final String EMP_STR = "";
 
@@ -17,7 +17,7 @@ public class TreePrint {
 
     private List<String> empList;
 
-    List<List<String>> print(TreeNode root) {
+    List<List<String>> printTree(TreeNode root) {
         if (root == null) {
             return Collections.emptyList();
         }
@@ -71,17 +71,17 @@ public class TreePrint {
     }
 
     public static void main(String[] args) {
-        TreePrint treePrint = new TreePrint();
+        PrintTree printTree = new PrintTree();
 
-        for (List<String> strings : treePrint.print(BinaryTreeUtil.deserialize("[1,2,3,4,5,6,7,8]"))) {
+        for (List<String> strings : printTree.printTree(BinaryTreeUtil.deserialize("[1,2,3,4,5,6,7,8]"))) {
             System.out.println(strings);
         }
 
-        for (List<String> strings : treePrint.print(BinaryTreeUtil.deserialize("[1,2,3,4]"))) {
+        for (List<String> strings : printTree.printTree(BinaryTreeUtil.deserialize("[1,2,3,4]"))) {
             System.out.println(strings);
         }
 
-        for (List<String> strings : treePrint.print(BinaryTreeUtil.deserialize("[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]"))) {
+        for (List<String> strings : printTree.printTree(BinaryTreeUtil.deserialize("[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]"))) {
             System.out.println(strings);
         }
     }
