@@ -5,7 +5,7 @@ import org.junit.Assert;
 import java.util.Arrays;
 
 /**
- * 684
+ * leetcode 684
  */
 public class FindRedundantConnection {
 

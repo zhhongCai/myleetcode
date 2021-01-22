@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 671
+ * leetcode 671
  */
 public class FindSecondMinimumValue {
 
