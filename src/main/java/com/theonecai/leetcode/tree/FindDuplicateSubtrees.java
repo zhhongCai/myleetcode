@@ -1,80 +1,47 @@
 package com.theonecai.leetcode.tree;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  *  652
  */
 public class FindDuplicateSubtrees {
 
-    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
-        Set<TreeNode> exist = new HashSet<>();
-        List<TreeNode> list = new ArrayList<>();
+    private int id;
 
-        dfs(root, root.left, exist, list);
-        dfs(root, root.right, exist, list);
+    private Map<String, Integer> map;
+
+    private Map<Integer, Integer> count;
+
+    private List<TreeNode> list;
+
+    public List<TreeNode> findDuplicateSubtrees(TreeNode root) {
+        this.id = 1;
+        this.map = new HashMap<>();
+        this.count = new HashMap<>();
+        this.list = new ArrayList<>();
+
+        dfs(root);
 
         return list;
     }
 
-    private void dfs(TreeNode root, TreeNode node, Set<TreeNode> exist, List<TreeNode> list) {
-        if (node == null || root == null) {
-            return;
+    private int dfs(TreeNode node) {
+        if (node == null) {
+            return 0;
         }
 
-        if (!exist.contains(node)) {
-            TreeNode n = containSubTree(root, node);
-            exist.add(node);
-            if (n != null && !exist.contains(n)) {
-                list.add(node);
-                exist.add(n);
-            }
+        String serial = node.val + "," + dfs(node.left) + "," + dfs(node.right);
+        int uid = this.map.computeIfAbsent(serial, k -> id++);
+        int c = this.count.getOrDefault(uid, 0);
+        this.count.put(uid, c + 1);
+        if (c == 1) {
+            this.list.add(node);
         }
-        dfs(root, node.left, exist, list);
-        dfs(root, node.right, exist, list);
-    }
-
-    /**
-     * root中跟node结构一样的子树
-     * @param root
-     * @param node
-     * @return
-     */
-    private TreeNode containSubTree(TreeNode root, TreeNode node) {
-        if (root == null && node == null) {
-            return null;
-        }
-        if (root == null || node == null) {
-            return null;
-        }
-        if (isSameTree(root, node)) {
-            return root;
-        }
-        TreeNode result = containSubTree(root.left, node);
-        if (result == null) {
-            return containSubTree(root.right, node);
-        }
-        return result;
-    }
-
-    private boolean isSameTree(TreeNode p, TreeNode q) {
-        if (p == null && q == null) {
-            return true;
-        }
-        if (p == null || q == null) {
-            return false;
-        }
-        if (p.val != q.val) {
-            return false;
-        }
-        if (p == q) {
-            return false;
-        }
-
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        return uid;
     }
 
     public static void main(String[] args) {
