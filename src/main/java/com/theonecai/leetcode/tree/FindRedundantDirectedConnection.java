@@ -5,24 +5,47 @@ import org.junit.Assert;
 import java.util.Arrays;
 
 /**
- * 685
+ * leetcode 685
  */
 public class FindRedundantDirectedConnection {
 
     public int[] findRedundantDirectedConnection(int[][] edges) {
+        int[] parent = new int[edges.length + 1];
+        for (int i = 0; i < parent.length; i++) {
+            parent[i] = i;
+        }
+
         Unionfind unionfind = new Unionfind(edges.length + 1, true);
-        int[] dupEdge = null;
-        for (int[] edge : edges) {
-            int xp = unionfind.findParent(edge[0]);
-            int yp = unionfind.findParent(edge[1]);
-            if (xp != yp) {
-                unionfind.union(xp, yp);
+        int conflict = -1;
+        int cycle = -1;
+        for (int i = 0; i < edges.length; i++) {
+            int[] edge = edges[i];
+            int u  = edge[0];
+            int v  = edge[1];
+            if (parent[v] != v) {
+                conflict = i;
             } else {
-                dupEdge = edge;
+                parent[v] = u;
+                int up = unionfind.findParent(u);
+                int vp = unionfind.findParent(v);
+                if (up != vp) {
+                    unionfind.union(up, vp);
+                } else {
+                    cycle = i;
+                }
             }
         }
 
-        return dupEdge;
+        if (conflict == -1) {
+            return edges[cycle];
+        } else {
+            int[] conflictEdge = edges[conflict];
+            if (cycle != -1) {
+                return new int[] {parent[conflictEdge[1]], conflictEdge[1]};
+            } else {
+                return conflictEdge;
+            }
+        }
     }
 
     private static class Unionfind {
@@ -76,6 +99,10 @@ public class FindRedundantDirectedConnection {
 
     public static void main(String[] args) {
         FindRedundantDirectedConnection findRedundantDirectedConnection = new FindRedundantDirectedConnection();
+        Assert.assertEquals(Arrays.toString(new int[]{2,1}),
+                Arrays.toString(findRedundantDirectedConnection.findRedundantDirectedConnection(new int[][]{
+                        {2,1},{3,1},{4,2},{1,4}
+                })));
         Assert.assertEquals(Arrays.toString(new int[]{1,4}),
                 Arrays.toString(findRedundantDirectedConnection.findRedundantDirectedConnection(new int[][]{
                         {1,2},{2,3},{3,4},{1,4},{1,5}
