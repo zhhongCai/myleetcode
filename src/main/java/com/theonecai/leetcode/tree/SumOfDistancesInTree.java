@@ -27,27 +27,23 @@ public class SumOfDistancesInTree {
 
         this.n = N;
         // 根节点
-        int root = findRoot(edges);
-        int u;
-        int v;
-        // Map<节点, 节点的下一个节点>
-        Map<Integer, List<Integer>> tree = buildTree(root, edges);
-
+        int root = edges[0][0];
         // count[i] 表示以节点id为根的树的节点数量
         int[] count = new int[N];
         // dp[i] 表示节点i与其他所有节点距离之和
         int[] dp = new int[N];
 
-        dfs(root, tree, count);
+        // Map<节点, 节点的下一个节点>
+        Map<Integer, List<Integer>> tree = buildTree(root, edges, count, dp);
 
-        dp[root] = countRoot(root, tree);
+        dfs(root, tree, count);
 
         countChildren(root, tree, count, dp);
 
         return dp;
     }
 
-    private Map<Integer, List<Integer>> buildTree(int root, int[][] edges) {
+    private Map<Integer, List<Integer>> buildTree(int root, int[][] edges, int[] count, int[] dp) {
         Map<Integer, List<Integer>> tree = new HashMap<>();
         int u;
         int v;
@@ -65,44 +61,39 @@ public class SumOfDistancesInTree {
         }
 
         Queue<Integer> queue = new LinkedList<>();
-        queue.add(root);
         boolean[] visited = new boolean[this.n];
+        queue.add(root);
         visited[root] = true;
+        int level = 1;
+        // 根节点与其他所有节点距离之和
+        int sum = 0;
         while (!queue.isEmpty()) {
             int i = queue.size();
             while (i > 0) {
-                int node = queue.poll();
+                int parent = queue.poll();
 
-                List<Integer> children = nodeMap.get(node);
+                List<Integer> children = nodeMap.get(parent);
                 if (children != null) {
-                    List<Integer> children2 = tree.getOrDefault(node, new ArrayList<>());
+                    List<Integer> treeChildren = tree.getOrDefault(parent, new ArrayList<>());
                     for (Integer child : children) {
                         if (!visited[child]) {
                             queue.add(child);
-                            children2.add(child);
+                            treeChildren.add(child);
+
                             visited[child] = true;
                         }
                     }
-                    tree.put(node, children2);
+                    sum += level * treeChildren.size();
+                    tree.put(parent, treeChildren);
                 }
                 i--;
             }
+            level++;
         }
+
+        dp[root] = sum;
 
         return tree;
-    }
-
-    private int findRoot(int[][] edges) {
-        boolean[] exists = new boolean[this.n];
-        for (int[] edge : edges) {
-            exists[Math.max(edge[0], edge[1])] = true;
-        }
-        for (int i = 0; i < this.n; i++) {
-            if (!exists[i]) {
-                return i;
-            }
-        }
-        return 0;
     }
 
     private int dfs(int node, Map<Integer, List<Integer>> tree, int[] count) {
@@ -116,7 +107,7 @@ public class SumOfDistancesInTree {
             c += dfs(child, tree, count);
         }
         count[node] = c;
-        return count[node];
+        return c;
     }
 
     private void countChildren(int root, Map<Integer, List<Integer>> tree, int[] count, int[] dp) {
@@ -137,27 +128,6 @@ public class SumOfDistancesInTree {
                 i--;
             }
         }
-    }
-
-    private int countRoot(int root, Map<Integer, List<Integer>> tree) {
-        int level = 1;
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(root);
-        int sum = 0;
-        while (!queue.isEmpty()) {
-            int i = queue.size();
-            while (i > 0) {
-                int node = queue.poll();
-                List<Integer> children = tree.get(node);
-                if (children != null) {
-                    sum += level * children.size();
-                    queue.addAll(children);
-                }
-                i--;
-            }
-            level++;
-        }
-        return sum;
     }
 
     public static void main(String[] args) {
