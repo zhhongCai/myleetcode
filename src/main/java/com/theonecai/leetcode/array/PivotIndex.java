@@ -3,7 +3,7 @@ package com.theonecai.leetcode.array;
 import org.junit.Assert;
 
 /**
- * 724
+ * leetcode 724
  */
 public class PivotIndex {
 
