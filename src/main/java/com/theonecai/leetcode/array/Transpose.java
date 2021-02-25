@@ -3,6 +3,7 @@ package com.theonecai.leetcode.array;
 import java.util.Arrays;
 
 /**
+ * leetcode 867
  * @Author: theonecai
  * @Date: Create in 2021/2/25 22:23
  * @Description:
