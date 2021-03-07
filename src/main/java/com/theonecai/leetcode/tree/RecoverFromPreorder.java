@@ -3,7 +3,7 @@ package com.theonecai.leetcode.tree;
 import org.junit.Assert;
 
 /**
- * 1028
+ * leetcode 1028
  * @Author: theonecai
  * @Date: Create in 2021/3/7 14:13
  * @Description:
@@ -32,6 +32,12 @@ public class RecoverFromPreorder {
         return node;
     }
 
+    /**
+     * 将字符串s按level分割
+     * @param s
+     * @param level
+     * @return
+     */
     private String[] split(String s, String level) {
         int first = s.indexOf(level);
         if (first == -1) {
@@ -86,7 +92,7 @@ public class RecoverFromPreorder {
 
     public static void main(String[] args) {
         RecoverFromPreorder recoverFromPreorder = new RecoverFromPreorder();
-        Assert.assertEquals("[1,null,5,6,7]", BinaryTreeUtil.serialize(
+        Assert.assertEquals("[1,5,null,6,7]", BinaryTreeUtil.serialize(
                 recoverFromPreorder.recoverFromPreorder("1------5--6--7")));
         Assert.assertEquals("[1,2,5,3,4,6,7]", BinaryTreeUtil.serialize(
                 recoverFromPreorder.recoverFromPreorder("1-2--3--4-5--6--7")));
