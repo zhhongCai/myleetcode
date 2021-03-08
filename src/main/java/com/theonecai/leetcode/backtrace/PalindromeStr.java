@@ -1,6 +1,7 @@
 package com.theonecai.leetcode.backtrace;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,8 +14,21 @@ import java.util.List;
  */
 public class PalindromeStr {
 
-    public List<List<String>> partition2(String s) {
+    private boolean[][] dp;
+
+    public List<List<String>> partition(String s) {
         List<List<String>> lists = new ArrayList<>();
+
+        // dp[i][j] 表示s[i~j]是否为回文串
+        dp = new boolean[s.length()][s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            Arrays.fill(dp[i], true);
+        }
+        for (int i = s.length() - 1; i >= 0; i--) {
+            for (int j = i + 1; j < s.length(); j++) {
+                dp[i][j] = (s.charAt(i) == s.charAt(j)) && dp[i + 1][j - 1];
+            }
+        }
 
         palindromeSubStr(s, 0, new ArrayList<>(s.length()), lists);
 
@@ -27,17 +41,14 @@ public class PalindromeStr {
             return;
         }
 
-        for (int i = 1; i <= str.length(); i++) {
-            if (index + i > str.length()) {
-                return;
-            }
+        int n = str.length() - index;
+        for (int i = 1; i <= n; i++) {
             String subStr = str.substring(index, index + i);
-            if (!isPalindromeSubStr(subStr)) {
-                continue;
+            if (dp[index][index + i - 1]) {
+                list.add(subStr);
+                palindromeSubStr(str, index + i, list, lists);
+                list.remove(list.size() - 1);
             }
-            list.add(subStr);
-            palindromeSubStr(str, index + i, list, lists);
-            list.remove(list.size() - 1);
         }
     }
 
@@ -55,7 +66,7 @@ public class PalindromeStr {
         return true;
     }
 
-    public List<List<String>> partition(String s) {
+    public List<List<String>> partition2(String s) {
         List<List<String>> result = new ArrayList<>();
 
         for (int i = 1; i <= s.length(); i++) {
