@@ -25,7 +25,7 @@ public class BitMap {
             throw new IllegalArgumentException("max size=" + this.size);
         }
         int index = indexFor(offset);
-        int pos = offset % 8;
+        int pos = offset % 32;
         if (val) {
             bitSet[index] = setNthBit(this.bitSet[index], pos);
         } else {
