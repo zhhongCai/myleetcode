@@ -49,7 +49,16 @@ public class Weekend237 {
 
     public int[] getOrder(int[][] tasks) {
         int n = tasks.length;
-        PriorityQueue<TaskInfo> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a.enqueueTime));
+        PriorityQueue<TaskInfo> queue = new PriorityQueue<>((a, b) -> {
+            int r = a.enqueueTime - b.enqueueTime;
+            if (r == 0) {
+                r = a.processingTime - b.processingTime;
+                if (r == 0) {
+                    return a.index - b.index;
+                }
+            }
+            return r;
+        });
         for (int i = 0; i < n; i++) {
             queue.add(new TaskInfo(tasks[i][0], tasks[i][1], i));
         }
@@ -57,11 +66,10 @@ public class Weekend237 {
         int index = 0;
 
         PriorityQueue<TaskInfo> minHeap = new PriorityQueue<>((a, b) -> {
-           int r = a.processingTime - b.processingTime;
-           if (r == 0) {
+           if (a.processingTime == b.processingTime) {
                return a.index - b.index;
            }
-           return r;
+           return a.processingTime - b.processingTime;
         });
         TaskInfo task;
         long current = queue.peek().enqueueTime;
@@ -72,12 +80,12 @@ public class Weekend237 {
             if (minHeap.isEmpty() && !queue.isEmpty()) {
                 task = queue.poll();
                 result[index++] = task.index;
-                current += task.processingTime;
+                current = task.enqueueTime + task.processingTime;
                 continue;
             }
             task = minHeap.poll();
             result[index++] = task.index;
-            current += task.processingTime;
+            current =current + task.processingTime;
         }
         while (!minHeap.isEmpty()) {
             task = minHeap.poll();
@@ -132,6 +140,9 @@ public class Weekend237 {
     }
 
     private void test3() {
+        System.out.println(Arrays.toString(this.getOrder(new int[][]{
+                {5,2},{7,2},{9,4},{6,3},{5,10},{1,1}
+        })));
         //[6,1,2,9,4,10,0,11,5,13,3,8,12,7]
         System.out.println(Arrays.toString(this.getOrder(new int[][]{
                 {19,13},{16,9},{21,10},{32,25},{37,4},{49,24},{2,15},{38,41},{37,34},{33,6},{45,4},{18,18},{46,39},{12,24}
