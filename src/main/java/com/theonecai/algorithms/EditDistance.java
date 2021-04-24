@@ -90,8 +90,8 @@ public class EditDistance {
         /**
          * dp[i][j]表示str[0~i-1]和str2[0~j-1]的最小编辑距离
          * 状态转移方程：
-         * 如果str[i] != str[j]：a = dp[i - 1][j - 1] 否则 a = dp[i - 1][j - 1] + 1;
-         *  dp[i][j] = min(dp[i][j - 1] + 1(插入), a(替换), dp[i - 1][j] + 1(删除))
+         * 如果str[i] == str[j]：dp[i][j] = dp[i - 1][j - 1]; 否则
+         *  dp[i][j] = min(dp[i][j - 1](插入), dp[i - 1][j - 1] (替换), dp[i - 1][j](删除)) + 1
          */
         int[][] dp = new int[str.length() + 1][str2.length() + 1];
         for (int j =  0; j < dp[0].length; j++) {
@@ -102,11 +102,12 @@ public class EditDistance {
         }
         for (int i = 1; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
-                int a =  dp[i - 1][j - 1];
                 if (str.charAt(i - 1) != str2.charAt(j - 1)) {
-                    a += 1;
+                    dp[i][j] = Math.min(dp[i][j - 1], Math.min(dp[i - 1][j - 1], dp[i - 1][j])) + 1;
+                } else {
+                    dp[i][j] = dp[i - 1][j - 1];
                 }
-                dp[i][j] = Math.min(dp[i][j - 1] + 1, Math.min(a, dp[i - 1][j] + 1));
+
             }
         }
 //        for (int i = 0; i < dp.length; i++) {
