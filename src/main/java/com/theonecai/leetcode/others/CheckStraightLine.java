@@ -1,6 +1,5 @@
 package com.theonecai.leetcode.others;
 
-import org.checkerframework.checker.units.qual.C;
 import org.junit.Assert;
 
 /**
