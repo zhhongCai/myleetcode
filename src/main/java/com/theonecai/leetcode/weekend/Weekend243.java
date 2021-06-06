@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * @Date: Create in 2021/05/30 10:24
  * @Description:
  */
-public class Weekend423 {
+public class Weekend243 {
 
     public boolean isSumEqual(String firstWord, String secondWord, String targetWord) {
         String sum = "";
@@ -110,7 +110,7 @@ public class Weekend423 {
 
 
     public static void main(String[] args) {
-        Weekend423 weekend = new Weekend423();
+        Weekend243 weekend = new Weekend243();
         weekend.test();
         weekend.test2();
         weekend.test3();
