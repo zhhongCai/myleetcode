@@ -4,9 +4,9 @@ package com.theonecai.leetcode.tree;
  *
  */
 public class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
+    public int val;
+    public TreeNode left;
+    public TreeNode right;
     TreeNode() {}
     TreeNode(int val) {
         this.val = val;
@@ -16,7 +16,7 @@ public class TreeNode {
         this.left = left;
         this.right = right;
     }
-    
+
     public static TreeNode buildTree() {
         TreeNode root = new TreeNode(7);
         root.left = new TreeNode(3);
