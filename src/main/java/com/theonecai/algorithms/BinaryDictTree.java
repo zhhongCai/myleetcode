@@ -1,9 +1,9 @@
-package com.theonecai.algorithms.common;
+package com.theonecai.algorithms;
 
 /**
  * 0/1字典数
  * @Author: theonecai
- * @Date: Create in 7/18/21 17:13
+ * @Date: Create in 7/18 17:13
  * @Description:
  */
 public class BinaryDictTree {

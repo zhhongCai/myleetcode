@@ -1,8 +1,7 @@
 package com.theonecai.leetcode.weekend;
 
 
-import com.theonecai.algorithms.common.BinaryDictTree;
-import com.theonecai.leetcode.bit.MaximizeXor;
+import com.theonecai.algorithms.BinaryDictTree;
 import org.junit.Assert;
 
 import java.util.ArrayList;
