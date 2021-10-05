@@ -36,13 +36,13 @@ public class SmallestSubsequence {
         // 前一个字符的在字符串的索引
         int pre = -1;
         for (int i = 0; i < k; i++) {
-            for (int j = 0; j < 26; j++) {
-                if (k - i == repetition) {
-                    while (repetition-- > 0) {
-                        sb.append(letter);
-                    }
-                    return sb.toString();
+            if (k - i == repetition) {
+                while (repetition-- > 0) {
+                    sb.append(letter);
                 }
+                return sb.toString();
+            }
+            for (int j = 0; j < 26; j++) {
                 List<Integer> list = indexList.get(j);
                 if (list.size() <= index[j] || list.isEmpty()) {
                     continue;
