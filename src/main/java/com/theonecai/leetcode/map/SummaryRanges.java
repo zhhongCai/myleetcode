@@ -1,60 +1,105 @@
 package com.theonecai.leetcode.map;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * leetcode 352
  */
 class SummaryRanges {
 
-    private Set<Integer> set;
-    private int[] parent;
+    private TreeMap<Integer, Integer> map;
 
     public SummaryRanges() {
-        set = new TreeSet<>();
-        parent = new int[10002];
-        for (int i = 0; i < parent.length; i++) {
-            parent[i] = i;
-        }
+        map = new TreeMap<>();
     }
 
     public void addNum(int val) {
-        set.add(val);
-        parent[val] = val + 1;
-        findParent(val);
+        if(map.isEmpty()){
+            map.put(val, val);
+            return;
+        }
+
+        Integer[] leftRange = new Integer[2];
+        Integer[] rightRange = new Integer[2];
+
+        leftRange[0] = map.floorKey(val);
+        if(leftRange[0] != null){
+            leftRange[1] = map.get(leftRange[0]);
+        }
+        rightRange[0] = map.ceilingKey(val);
+        if(rightRange[0] != null){
+            rightRange[1] = map.get(rightRange[0]);
+        }
+
+        if(leftRange[0] == null){
+            if (inRightRange(val, rightRange)) {
+                return;
+            }
+        } else {
+            if(rightRange[0] == null){
+                if (inLeftRange(val, leftRange)) {
+                    return;
+                }
+            } else {
+                if(val <= leftRange[1]){
+                    return;
+                }
+                if(val == leftRange[1] + 1){
+                    leftRange[1] = val;
+                    map.remove(leftRange[0]);
+                    if(leftRange[1] + 1 >= rightRange[0]){
+                        map.remove(rightRange[0]);
+                        leftRange[1] = Math.max(leftRange[1], rightRange[1]);
+                    }
+                    map.put(leftRange[0], leftRange[1]);
+                    return;
+                }
+                if (inRightRange(val, rightRange)) {
+                    return;
+                }
+            }
+        }
+        map.put(val, val);
     }
 
-    private int findParent(int val) {
-        int x = val;
-        while (parent[x] != x) {
-            x = parent[x];
+    private boolean inLeftRange(int val, Integer[] leftRange) {
+        if (leftRange == null) {
+            return false;
         }
-        parent[val] = x;
-        return  x;
+        if(leftRange[1] + 1 == val){
+            map.remove(leftRange[0]);
+            map.put(leftRange[0], val);
+            return true;
+        }
+        return val <= leftRange[1];
+    }
+
+    private boolean inRightRange(int val, Integer[] rightRange) {
+        if (rightRange == null) {
+            return false;
+        }
+        if (rightRange[0] == val) {
+            return true;
+        }
+        if (rightRange[0] == val + 1) {
+            map.remove(rightRange[0]);
+            map.put(val, rightRange[1]);
+            return true;
+        }
+        return false;
     }
 
     public int[][] getIntervals() {
-        List<int[]> list = new ArrayList<>();
-        int[] pre = null;
-        for (Integer num : set) {
-            if (parent[num] != num) {
-                if (pre != null && pre[0] <= num && num <= pre[1]) {
-                    continue;
-                }
-                int[] range = new int[]{num, findParent(num) - 1};
-                list.add(range);
-                pre = range;
-            }
+        int[][] data = new int[map.size()][2];
+        int i = 0;
+        for (Map.Entry<Integer, Integer> e : map.entrySet()){
+            data[i][0] = e.getKey();
+            data[i][1] = e.getValue();
+            i++;
         }
-        int[][] res = new int[list.size()][2];
-        for (int i = 0; i < list.size(); i++) {
-            res[i] = list.get(i);
-        }
-        return res;
+        return data;
     }
 
     public static void main(String[] args) {
