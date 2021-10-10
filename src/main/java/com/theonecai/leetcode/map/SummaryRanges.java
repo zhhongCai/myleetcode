@@ -33,51 +33,40 @@ class SummaryRanges {
             rightRange[1] = map.get(rightRange[0]);
         }
 
-        if(leftRange[0] == null){
+        if (inLeftRange(val, leftRange)) {
             if (inRightRange(val, rightRange)) {
-                return;
+                merge(leftRange, rightRange);
             }
-        } else {
-            if(rightRange[0] == null){
-                if (inLeftRange(val, leftRange)) {
-                    return;
-                }
-            } else {
-                if(val <= leftRange[1]){
-                    return;
-                }
-                if(val == leftRange[1] + 1){
-                    leftRange[1] = val;
-                    map.remove(leftRange[0]);
-                    if(leftRange[1] + 1 >= rightRange[0]){
-                        map.remove(rightRange[0]);
-                        leftRange[1] = Math.max(leftRange[1], rightRange[1]);
-                    }
-                    map.put(leftRange[0], leftRange[1]);
-                    return;
-                }
-                if (inRightRange(val, rightRange)) {
-                    return;
-                }
-            }
+            return;
+        }
+        if (inRightRange(val, rightRange)) {
+            return;
         }
         map.put(val, val);
     }
 
+    private void merge(Integer[] leftRange, Integer[] rightRange) {
+        map.remove(leftRange[0]);
+        map.remove(rightRange[0]);
+        leftRange[1] = Math.max(leftRange[1], rightRange[1]);
+        map.put(leftRange[0], leftRange[1]);
+    }
+
     private boolean inLeftRange(int val, Integer[] leftRange) {
-        if (leftRange == null) {
+        if (leftRange[0] == null) {
             return false;
         }
         if(leftRange[1] + 1 == val){
             map.remove(leftRange[0]);
-            map.put(leftRange[0], val);
+            leftRange[1] = val;
+            map.put(leftRange[0], leftRange[1]);
             return true;
         }
         return val <= leftRange[1];
     }
 
     private boolean inRightRange(int val, Integer[] rightRange) {
-        if (rightRange == null) {
+        if (rightRange[0] == null) {
             return false;
         }
         if (rightRange[0] == val) {
@@ -85,7 +74,8 @@ class SummaryRanges {
         }
         if (rightRange[0] == val + 1) {
             map.remove(rightRange[0]);
-            map.put(val, rightRange[1]);
+            rightRange[0] = val;
+            map.put(rightRange[0], rightRange[1]);
             return true;
         }
         return false;
