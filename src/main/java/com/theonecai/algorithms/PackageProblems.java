@@ -21,13 +21,13 @@ public class PackageProblems {
      * 状态转移方程：f[i, v] = max(f[i - 1, v], f[i - 1, v - Ci] + Wi)
      * 优化空间后，状态转移方程：f[v] = max(f[v], f[v - Ci] + Wi)
      *
-     * @param costs : 物品重量
+     * @param vs : 物品体积
      * @param worth : 物品价值
-     * @param w : 背包容量
+     * @param c : 背包容量
      * @return
      */
-    public int resolveZeroOnePack(int[] costs, int[] worth, int w) {
-        int[] f = new int[w + 1];
+    public int resolveZeroOnePack(int[] vs, int[] worth, int c) {
+        int[] f = new int[c + 1];
 
         // 如果要求恰好装满时
         Arrays.fill(f, Integer.MIN_VALUE);
@@ -36,15 +36,15 @@ public class PackageProblems {
         // 没有要求恰好装满时
 //        Arrays.fill(f, 0);
 
-        for (int i = 0; i < costs.length; i++) {
-            zeroOnePack(costs[i], worth[i], w, f);
+        for (int i = 0; i < vs.length; i++) {
+            zeroOnePack(vs[i], worth[i], c, f);
         }
 //        ArrayUtil.print(f);
-        return f[w];
+        return f[c];
     }
 
-    private void zeroOnePack(int cost, int worth, int w, int[] f) {
-        for (int v = w; v >= cost; v--) {
+    private void zeroOnePack(int cost, int worth, int c, int[] f) {
+        for (int v = c; v >= cost; v--) {
             f[v] = Math.max(f[v], f[v - cost] + worth);
         }
     }
