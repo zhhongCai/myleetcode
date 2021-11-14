@@ -3,8 +3,10 @@ package com.theonecai.leetcode.bfs;
 import org.junit.Assert;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -13,6 +15,56 @@ import java.util.Set;
  */
 public class FindMinStep {
     public int findMinStep(String board, String hand) {
+//        return bfs(board, hand);
+        memo = new HashMap<>();
+        long res = dfs(board, hand);
+        return res >= Integer.MAX_VALUE ? -1 : (int)res;
+    }
+
+    private Map<String, Long> memo;
+    private long dfs(String board, String hand) {
+        if (board == null || board.length() == 0) {
+            return 0;
+        }
+        if (hand == null || hand.length() == 0) {
+            return Integer.MAX_VALUE;
+        }
+        String key = board + "-" + hand;
+        if (memo.containsKey(key)) {
+            return memo.get(key);
+        }
+
+        char[] handChars = hand.toCharArray();
+        Arrays.sort(handChars);
+        long res = Integer.MAX_VALUE;
+        for (int i = 0; i < hand.length(); i++) {
+            if (i > 0 && hand.charAt(i) == hand.charAt(i - 1)) {
+                continue;
+            }
+            String s = String.valueOf(hand.charAt(i));
+            String nextHand = hand.substring(0, i) + hand.substring(i + 1);
+            for (int j = 0; j <= board.length(); j++) {
+                boolean ok = false;
+                if (j > 0 && j < board.length() && board.charAt(j) == board.charAt(j - 1)
+                        && board.charAt(j - 1) != hand.charAt(i)) {
+                    ok = true;
+                }
+                if (j < board.length() && board.charAt(j) == hand.charAt(i)) {
+                    ok = true;
+                }
+                if (!ok) {
+                    continue;
+                }
+                String nextBoard = board.substring(0, j) + s + board.substring(j);
+                nextBoard = clean(nextBoard);
+                res = Math.min(res, dfs(nextBoard, nextHand) + 1);
+            }
+        }
+        memo.put(key, res);
+        return res;
+    }
+
+    public int bfs(String board, String hand) {
         char[] handChars = hand.toCharArray();
         Arrays.sort(handChars);
         Queue<String[]> queue = new LinkedList<>();
