@@ -4,6 +4,7 @@ package com.theonecai.leetcode.weekend;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,13 @@ public class Weekend268 {
         weekend.test2();
         weekend.test3();
         weekend.test4();
+        int[] nums = new int[] {1,3,5,7,9,11,12,13,14,15};
+        System.out.println(Arrays.binarySearch(nums, 0, nums.length, 4));
+        System.out.println(Arrays.binarySearch(nums, 0, nums.length, 6));
+        System.out.println(Arrays.binarySearch(nums, 0, nums.length, 0));
+        System.out.println(Arrays.binarySearch(nums, 0, nums.length, 16));
+        System.out.println(Arrays.binarySearch(nums, 0, nums.length, 15));
+
     }
 
     private void test4() {
