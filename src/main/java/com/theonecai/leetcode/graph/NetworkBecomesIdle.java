@@ -32,7 +32,7 @@ public class NetworkBecomesIdle {
         for (int i = 1; i < n; i++) {
             int t = 2 * dist[i];
             if (patience[i] < t) {
-                t += (t - patience[i]) / patience[i] * patience[i];
+                t += (t - 1) / patience[i] * patience[i];
             }
             ans = Math.max(ans, t);
         }
